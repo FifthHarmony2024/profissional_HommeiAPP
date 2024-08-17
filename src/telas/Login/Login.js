@@ -1,47 +1,68 @@
-import React from "react";
-import { Text, View, StyleSheet, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
-
+import React, { useState } from "react";
+import { Text, View, StyleSheet, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, ScrollView, Pressable } from "react-native";
+import Icones from 'react-native-vector-icons/Feather';
+import Icone from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from "react-native-vector-icons/EvilIcons";
 export default function Login({ navigation }) {
+
+    const [viewPass, setViewPass] = useState(true);
+    
+    function togglePasswordVisibility(){
+        setViewPass(!viewPass);
+    }
+
     return (
         <KeyboardAvoidingView
             style={{ flex: 1 }}
             behavior={Platform.OS === "ios" ? "padding" : "height"} >
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }} bounces={false}>
-                <View style={style.container}>
-                    <View style={style.fundoRoxo}>
-                        <Text style={style.titulo}>Login</Text>
-                        
-                        <View style={style.inputContainer}>
-                            <TextInput 
-                                style={style.campos}
-                                placeholder="E-mail"
-                                placeholderTextColor="#8A8A8A"
-                            />
-                            <TextInput 
-                                style={style.campos}
-                                placeholder="Senha:"
-                                placeholderTextColor="#8A8A8A"
-                                secureTextEntry
-                            />
-                        </View>
-                        <Text style={style.linkTexto}>Esqueci minha senha</Text>
 
-                        <TouchableOpacity style={style.botao} onPress={() => navigation.navigate('EntrarLogin')}>
-                            <Text style={style.botaoTexto}>Entrar</Text>
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }} bounces={false}>
+                <View style={styles.container}>
+                    <View style={styles.fundoRoxo}>
+                        <Text style={styles.titulo}>Login</Text>
+                        
+                        <View style={styles.inputContainer}>
+                            <View style={styles.visualizar}>
+                                <Icone name="email-outline" size={20} color="#8A8A8A" style={styles.iconeEmail} />
+
+                                <TextInput 
+                                    style={styles.campos}
+                                    placeholder="E-mail"
+                                    placeholderTextColor="#8A8A8A" />
+                            </View>
+
+                            <View style={styles.visualizar}>
+                                <Icon name="lock" size={35} color="#8A8A8A" style={styles.iconeSenha} />
+                                <TextInput 
+                                    style={styles.camposSenha}
+                                    placeholder="Senha"
+                                    placeholderTextColor="#8A8A8A"
+                                    secureTextEntry={viewPass}
+                                />
+                                <Pressable onPress={togglePasswordVisibility} style={styles.iconeOlho}> 
+                                    {viewPass ? 
+                                        (<Icones name="eye" size={25} color="#8A8A8A" />) :
+                                        (<Icones name="eye-off" size={25} color="#8A8A8A" />)}
+                                </Pressable>
+                            </View>
+                        </View>
+
+                        <Text style={styles.linkTexto}>Esqueci minha senha</Text>
+
+                        <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('EntrarLogin')}>
+                            <Text style={styles.botaoTexto}>Entrar</Text>
                         </TouchableOpacity>
                         
                     </View>
                     
-                    <Text style={style.cadastroTexto}>
-                        Não possui conta? <Text style={style.cadastroLink} onPress={() => navigation.navigate('Cad')}>Cadastre-se</Text>
+                    <Text style={styles.cadastroTexto}>
+                        Não possui conta? <Text style={styles.cadastroLink} onPress={() => navigation.navigate('Cad')}>Cadastre-se</Text>
                     </Text>
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
     );
-}
-
-const style = StyleSheet.create({
+}const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
@@ -70,15 +91,45 @@ const style = StyleSheet.create({
         marginBottom: 20,
         marginTop: 80,
     },
-    campos: {
+    visualizar: {
+        flexDirection: 'row',
+        alignItems: 'center',
         backgroundColor: '#FFFFFF',
         borderRadius: 25,
-        height: 50,
-        marginBottom: 15,
         paddingHorizontal: 15,
+        height: 50,
+        marginBottom: 15, 
+    },
+    campos: {
+        flex: 1,
         fontSize: 16,
         color: '#000000',
-        borderWidth: 0,
+        marginLeft: 10, 
+    },
+    camposSenha: {
+        flex: 1,
+        fontSize: 16,
+        color: '#000000',
+        marginLeft: 10,
+    },
+    iconeEmail: {
+        paddingHorizontal: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginLeft: 5,
+                textAlign: 'center'
+
+    },
+    iconeSenha: {
+        paddingHorizontal: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 35,    
+        marginLeft:-2,
+        textAlign: 'center'
+    },
+    iconeOlho: {
+        paddingHorizontal: 10,
     },
     botao: {
         backgroundColor: '#FE914E',
@@ -95,7 +146,7 @@ const style = StyleSheet.create({
         fontWeight: 'bold',
     },
     linkTexto: {
-        marginTop: -25,
+        marginTop: -15,
         marginRight: 150,
         color: '#FFFFFF',
         textDecorationLine: 'underline',
@@ -108,5 +159,4 @@ const style = StyleSheet.create({
         color: '#FF0000',
         fontWeight: 'bold',
     },
-   
 });

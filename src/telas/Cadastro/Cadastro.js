@@ -1,99 +1,129 @@
-import React from "react";
-import { Text, StyleSheet, View, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform } from "react-native";
-import Icones from 'react-native-vector-icons/Entypo'
+import React, { useState } from "react";
+import { Text, StyleSheet, View, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, Pressable } from "react-native";
+import Icones from 'react-native-vector-icons/Feather';
 
 export default function Cadastro({ navigation }) {
+    const [viewPass, setViewPass] = useState(true);
+    const [viewConfirmPass, setViewConfirmPass] = useState(true);
+
+    function togglePasswordVisibility() {
+        setViewPass(!viewPass);
+    }
+
+    function toggleConfirmPasswordVisibility() {
+        setViewConfirmPass(!viewConfirmPass);
+    }
+
     return (
         <KeyboardAvoidingView
             style={{ flex: 1 }}
             behavior={Platform.OS === "ios" ? "padding" : "height"}>
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} bounces={false}>
-                <View style={style.container}>
-                    <View style={style.fundoRoxo}>
-                        <Icones style={style.seta} name="chevron-left" size={40} color='#ffffff'  onPress={() => navigation.goBack('EntrarLogin')} />
-                        <Text style={style.titulo}>Cadastre-se</Text>
+                <View style={styles.container}>
+                    <View style={styles.fundoRoxo}>
+                        <Icones 
+                            style={styles.seta} 
+                            name="chevron-left" 
+                            size={40} 
+                            color='#ffffff'  
+                            onPress={() => navigation.goBack('EntrarLogin')} 
+                        />
+                        <Text style={styles.titulo}>Cadastre-se</Text>
 
-                        <View style={style.inputContainer}>
+                        <View style={styles.inputContainer}>
                             <TextInput 
-                                style={style.campos}
-                                placeholder="Nome:"
+                                style={styles.campos}
+                                placeholder="Nome"
                                 placeholderTextColor="#8A8A8A"
                             />
                             <TextInput 
-                                style={style.campos}
-                                placeholder="Sobrenome:"
+                                style={styles.campos}
+                                placeholder="Sobrenome"
                                 placeholderTextColor="#8A8A8A"
                             />
                             <TextInput 
-                                style={style.campos}
+                                style={styles.campos}
                                 placeholder="E-mail"
                                 placeholderTextColor="#8A8A8A"
                             />
                             <TextInput 
-                                style={style.campos}
-                                placeholder="Categoria:"
+                                style={styles.campos}
+                                placeholder="Categoria"
                                 placeholderTextColor="#8A8A8A"
                             />
                             <TextInput 
-                                style={style.campos}
+                                style={styles.campos}
                                 placeholder="Nome Comercial"
                                 placeholderTextColor="#8A8A8A"
                             />
+                            <View style={styles.inputSenha}>
+                                <TextInput 
+                                    style={styles.camposSenha}
+                                    placeholder="Senha"
+                                    placeholderTextColor="#8A8A8A"
+                                    secureTextEntry={viewPass}
+                                />
+                                <Pressable onPress={togglePasswordVisibility} style={styles.iconeOlho}> 
+                                    {viewPass ? 
+                                        (<Icones name="eye" size={25} color="#8A8A8A" />) :
+                                        (<Icones name="eye-off" size={25} color="#8A8A8A" />)}
+                                </Pressable>
+                            </View>
+                            <View style={styles.inputSenha}>
+                                <TextInput 
+                                    style={styles.camposSenha}
+                                    placeholder="Confirmar Senha"
+                                    placeholderTextColor="#8A8A8A"
+                                    secureTextEntry={viewConfirmPass}
+                                />
+                                <Pressable onPress={toggleConfirmPasswordVisibility} style={styles.iconeOlho}> 
+                                    {viewConfirmPass ? 
+                                        (<Icones name="eye" size={25} color="#8A8A8A" />) :
+                                        (<Icones name="eye-off" size={25} color="#8A8A8A" />)}
+                                </Pressable>
+                            </View>
                             <TextInput 
-                                style={style.campos}
-                                placeholder="Senha:"
+                                style={styles.campos}
+                                placeholder="CEP"
                                 placeholderTextColor="#8A8A8A"
-                                secureTextEntry
                             />
                             <TextInput 
-                                style={style.campos}
-                                placeholder="Confirmar senha:"
-                                placeholderTextColor="#8A8A8A"
-                                secureTextEntry
-                            />
-                            <TextInput 
-                                style={style.campos}
-                                placeholder="CEP:"
+                                style={styles.campos}
+                                placeholder="Bairro"
                                 placeholderTextColor="#8A8A8A"
                             />
                             <TextInput 
-                                style={style.campos}
-                                placeholder="Bairro:"
+                                style={styles.campos}
+                                placeholder="Endereço"
                                 placeholderTextColor="#8A8A8A"
                             />
                             <TextInput 
-                                style={style.campos}
-                                placeholder="Endereço:"
+                                style={styles.campos}
+                                placeholder="Nº Residencial"
                                 placeholderTextColor="#8A8A8A"
                             />
                             <TextInput 
-                                style={style.campos}
-                                placeholder="Nº Residencial:"
-                                placeholderTextColor="#8A8A8A"
-                            />
-                            <TextInput 
-                                style={style.campos}
-                                placeholder="Complemento:"
+                                style={styles.campos}
+                                placeholder="Complemento"
                                 placeholderTextColor="#8A8A8A"
                             />
                         </View>
 
-                        <TouchableOpacity style={style.botao} onPress={() => navigation.navigate('Inicio')}>
-                            <Text style={style.botaoTexto}>Cadastrar</Text>
+                        <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('Inicio')}>
+                            <Text style={styles.botaoTexto}>Cadastrar</Text>
                         </TouchableOpacity>
                     </View>
-                    
-                    <Text style={style.cadastroTexto}>
-                                Já possui conta?<Text style={style.cadastroLink} onPress={() => navigation.navigate('EntrarLogin')}>Entrar</Text>
-                    </Text>
 
+                    <Text style={styles.cadastroTexto}>
+                        Já possui conta? <Text style={styles.cadastroLink} onPress={() => navigation.navigate('EntrarLogin')}>Entrar</Text>
+                    </Text>
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
     );
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
@@ -107,29 +137,48 @@ const style = StyleSheet.create({
         borderBottomRightRadius: 200,
         alignItems: 'center',
         paddingVertical: 50,
-        paddingHorizontal: 20, 
-        position: 'relative', 
+        paddingHorizontal: 20,
+        position: 'relative',
     },
     titulo: {
         fontSize: 30,
         color: '#FFFFFF',
-        marginBottom: -5,
-        marginTop: -40,
+        marginBottom: 50, 
+        marginTop:24
     },
     inputContainer: {
-        width: '90%',  
+        width: '90%',
         marginBottom: 20,
-        marginTop: 60,
     },
     campos: {
         backgroundColor: '#FFFFFF',
         borderRadius: 25,
         height: 50,
-        marginBottom: 15,
-        paddingHorizontal: 15,
+        marginBottom: 15, 
+        paddingHorizontal: 20,  
+        paddingVertical: 10,    
         fontSize: 16,
         color: '#000000',
         borderWidth: 0,
+    },
+    camposSenha: {
+        flex: 1,
+        backgroundColor: '#FFFFFF',
+        borderRadius: 25,
+        height: 50,
+        paddingHorizontal: 20,  
+        paddingVertical: 10,    
+        fontSize: 16,
+        color: '#000000',
+        borderWidth: 0,
+    },
+    inputSenha: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#FFFFFF',
+        borderRadius: 25,
+        height: 50,
+        marginBottom: 15,
     },
     botao: {
         backgroundColor: '#FE914E',
@@ -137,7 +186,8 @@ const style = StyleSheet.create({
         width: '60%',
         height: 50,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginTop: 20,
     },
     botaoTexto: {
         fontSize: 18,
@@ -152,8 +202,15 @@ const style = StyleSheet.create({
         color: '#FF0000',
         fontWeight: 'bold',
     },
-    seta:{
-        marginRight:330,
-        marginTop:20
+    seta: {
+        position: 'absolute',
+        top: 79,
+        left: 20,
+    },
+    iconeOlho: {
+        paddingHorizontal: 10,
+        paddingRight: 25,
+        justifyContent: 'center',
+        height: '100%',
     }
 });
