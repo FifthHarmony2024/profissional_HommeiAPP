@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, StyleSheet, View, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, Pressable } from "react-native";
+import { Text, StyleSheet, View, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, Pressable, Image } from "react-native";
 import Icones from 'react-native-vector-icons/Feather';
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -46,6 +46,8 @@ export default function Cadastro({ navigation }) {
             behavior={Platform.OS === "ios" ? "padding" : "height"}>
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} bounces={false}>
                 <View style={styles.container}>
+                    <View style={styles.circleBackground} />
+
                     <View style={styles.fundoRoxo}>
                         <Icones 
                             style={styles.seta} 
@@ -60,17 +62,17 @@ export default function Cadastro({ navigation }) {
                             <TextInput 
                                 style={styles.campos}
                                 placeholder="Nome"
-                                placeholderTextColor="#8A8A8A"
+                                placeholderTextColor="#282828"
                             />
                             <TextInput 
                                 style={styles.campos}
                                 placeholder="Sobrenome"
-                                placeholderTextColor="#8A8A8A"
+                                placeholderTextColor="#282828"
                             />
                             <TextInput 
                                 style={styles.campos}
                                 placeholder="E-mail"
-                                placeholderTextColor="#8A8A8A"
+                                placeholderTextColor="#282828"
                             />
                             
                             <View style={styles.dropdownContainer}>
@@ -98,7 +100,7 @@ export default function Cadastro({ navigation }) {
                                     renderLeftIcon={() => (
                                         <AntDesign
                                           style={styles.icon}
-                                          color={isFocus ? '#4E40A2' : '8A8A8A'}
+                                          color={isFocus ? '#4E40A2' : '#8A8A8A'}
                                           name="Safety"
                                           size={20}
                                         />
@@ -109,69 +111,71 @@ export default function Cadastro({ navigation }) {
                             <TextInput 
                                 style={styles.campos}
                                 placeholder="Nome Comercial"
-                                placeholderTextColor="#8A8A8A"
+                                placeholderTextColor="#282828"
                             />
                             <View style={styles.inputSenha}>
                                 <TextInput 
                                     style={styles.camposSenha}
                                     placeholder="Senha"
-                                    placeholderTextColor="#8A8A8A"
+                                    placeholderTextColor="#282828"
                                     secureTextEntry={viewPass}
                                 />
                                 <Pressable onPress={togglePasswordVisibility} style={styles.iconeOlho}> 
                                     {viewPass ? 
-                                        (<Icones name="eye" size={25} color="#8A8A8A" />) :
-                                        (<Icones name="eye-off" size={25} color="#8A8A8A" />)}
+                                        (<Icones name="eye" size={25} color="#282828" />) :
+                                        (<Icones name="eye-off" size={25} color="#282828" />)}
                                 </Pressable>
                             </View>
                             <View style={styles.inputSenha}>
                                 <TextInput 
                                     style={styles.camposSenha}
                                     placeholder="Confirmar Senha"
-                                    placeholderTextColor="#8A8A8A"
+                                    placeholderTextColor="#282828"
                                     secureTextEntry={viewConfirmPass}
                                 />
                                 <Pressable onPress={toggleConfirmPasswordVisibility} style={styles.iconeOlho}> 
                                     {viewConfirmPass ? 
-                                        (<Icones name="eye" size={25} color="#8A8A8A" />) :
-                                        (<Icones name="eye-off" size={25} color="#8A8A8A" />)}
+                                        (<Icones name="eye" size={25} color="#282828" />) :
+                                        (<Icones name="eye-off" size={25} color="#282828" />)}
                                 </Pressable>
                             </View>
                             <TextInput 
                                 style={styles.campos}
                                 placeholder="CEP"
-                                placeholderTextColor="#8A8A8A"
+                                placeholderTextColor="#282828"
                             />
                             <TextInput 
                                 style={styles.campos}
                                 placeholder="Bairro"
-                                placeholderTextColor="#8A8A8A"
+                                placeholderTextColor="#282828"
                             />
                             <TextInput 
                                 style={styles.campos}
                                 placeholder="Endereço"
-                                placeholderTextColor="#8A8A8A"
+                                placeholderTextColor="#282828"
                             />
                             <TextInput 
                                 style={styles.campos}
                                 placeholder="Nº Residencial"
-                                placeholderTextColor="#8A8A8A"
+                                placeholderTextColor="#282828"
                             />
                             <TextInput 
                                 style={styles.campos}
                                 placeholder="Complemento"
-                                placeholderTextColor="#8A8A8A"
+                                placeholderTextColor="#282828"
                             />
                         </View>
 
                         <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('Inicio')}>
                             <Text style={styles.botaoTexto}>Cadastrar</Text>
                         </TouchableOpacity>
+
+                        <Text style={styles.cadastroTexto}>
+                            Já possui conta? <Text style={styles.cadastroLink} onPress={() => navigation.navigate('EntrarLogin')}>Entrar</Text>
+                        </Text>
                     </View>
 
-                    <Text style={styles.cadastroTexto}>
-                        Já possui conta? <Text style={styles.cadastroLink} onPress={() => navigation.navigate('EntrarLogin')}>Entrar</Text>
-                    </Text>
+                   
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
@@ -183,13 +187,13 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F5F5F5',
+        backgroundColor: '#4E40A2',
+        position: 'relative', 
     },
     fundoRoxo: {
         width: '100%',
-        backgroundColor: '#6C49C7',
-        borderBottomLeftRadius: 200,
-        borderBottomRightRadius: 200,
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
         alignItems: 'center',
         paddingVertical: 50,
         paddingHorizontal: 20,
@@ -199,46 +203,45 @@ const styles = StyleSheet.create({
         fontSize: 30,
         color: '#FFFFFF',
         marginBottom: 50, 
-        marginTop:24
+        marginTop: 30,
+        marginRight:85
     },
     inputContainer: {
         width: '90%',
         marginBottom: 20,
     },
     campos: {
-        backgroundColor: '#FFFFFF',
-        borderRadius: 25,
-        height: 50,
-        marginBottom: 15, 
-        paddingHorizontal: 20,  
-        paddingVertical: 10,    
-        fontSize: 16,
+        backgroundColor: '#F5F5F5',
+        borderRadius: 8, 
+        height: 49, 
+        marginBottom: 10, 
+        paddingHorizontal: 15,  
+        fontSize: 15, 
         color: '#000000',
         borderWidth: 0,
     },
     camposSenha: {
         flex: 1,
-        backgroundColor: '#FFFFFF',
-        borderRadius: 25,
-        height: 50,
-        paddingHorizontal: 20,  
-        paddingVertical: 10,    
-        fontSize: 16,
+        backgroundColor: '#F5F5F5',
+        borderRadius: 8,
+        height: 49, 
+        paddingHorizontal: 15,  
+        fontSize: 15,
         color: '#000000',
         borderWidth: 0,
     },
     inputSenha: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#FFFFFF',
-        borderRadius: 25,
-        height: 50,
-        marginBottom: 15,
+        backgroundColor: '#F5F5F5',
+        borderRadius: 8,
+        height: 49, 
+        marginBottom: 10,
     },
     botao: {
         backgroundColor: '#FE914E',
-        borderRadius: 50,
-        width: '60%',
+        borderRadius: 10, 
+        width: '90%',
         height: 50,
         alignItems: 'center',
         justifyContent: 'center',
@@ -250,35 +253,36 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     cadastroTexto: {
-        color: '#000000',
-        marginTop: 20,
+        color: '#FFFFFF',
+        marginTop: 18,
+        textAlign: 'center',
     },
     cadastroLink: {
-        color: '#FF0000',
+        color: '#FE914E',
         fontWeight: 'bold',
     },
     seta: {
         position: 'absolute',
-        top: 79,
+        top: 84, 
         left: 20,
     },
     iconeOlho: {
         paddingHorizontal: 10,
-        paddingRight: 25,
+        paddingRight: 20,
         justifyContent: 'center',
         height: '100%',
     },
     dropdownContainer: {
-        marginBottom: 15,
+        marginBottom: 10,
         position: 'relative',
     },
     dropdown: {
-        height: 50,
-        borderColor: 'gray',
+        height: 49, 
+        borderColor: '#F5F5F5',
         borderWidth: 0.5,
-        borderRadius: 25,
-        backgroundColor: '#FFFFFF',
-        paddingHorizontal: 20,
+        borderRadius: 8,
+        backgroundColor: '#F5F5F5',
+        paddingHorizontal: 15,
     },
     icon: {
         marginRight: 5,
@@ -290,13 +294,14 @@ const styles = StyleSheet.create({
         top: 15,
         zIndex: 999,
         paddingHorizontal: 8,
-        fontSize: 14,
+        fontSize: 15,
     },
     placeholderStyle: {
-        fontSize: 16,
+        fontSize: 15,
+        color: '#282828', 
     },
     selectedTextStyle: {
-        fontSize: 16,
+        fontSize: 15,
     },
     iconStyle: {
         width: 20,
@@ -304,6 +309,16 @@ const styles = StyleSheet.create({
     },
     inputSearchStyle: {
         height: 40,
-        fontSize: 16,
+        fontSize: 15,
     },
+    circleBackground: {
+        position: 'absolute',
+        width: 350,
+        height: 90,
+        borderRadius: 150,
+        backgroundColor: '#5A4ABA', 
+        top: 55,
+        left: -40, 
+    },
+    
 });

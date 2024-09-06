@@ -72,7 +72,7 @@ export default function Login({ navigation }) {
     fundoRoxo: {
         width: '100%',
         height: 700,
-        backgroundColor: '#6C49C7', 
+        backgroundColor: '#3A3074', 
         borderBottomLeftRadius: 200, 
         borderBottomRightRadius: 200, 
         alignItems: 'center',
@@ -105,6 +105,7 @@ export default function Login({ navigation }) {
         fontSize: 16,
         color: '#000000',
         marginLeft: 10, 
+        
     },
     camposSenha: {
         flex: 1,
