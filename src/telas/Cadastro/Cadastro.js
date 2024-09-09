@@ -5,14 +5,17 @@ import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 const data = [
-  { label: 'Item 1', value: '1' },
-  { label: 'Item 2', value: '2' },
-  { label: 'Item 3', value: '3' },
-  { label: 'Item 4', value: '4' },
-  { label: 'Item 5', value: '5' },
-  { label: 'Item 6', value: '6' },
-  { label: 'Item 7', value: '7' },
-  { label: 'Item 8', value: '8' },
+  { label: 'Moda e Beleza', value: '1' },
+  { label: 'Serviços Domésticos', value: '2' },
+  { label: 'Assistência Técnica', value: '3' },
+  { label: 'Aulas', value: '4' },
+  { label: 'Reformas e Reparos', value: '5' },
+  { label: 'Consultoria', value: '6' },
+  { label: 'Transporte', value: '7' },
+  { label: 'Design e Tecnologia', value: '8' },
+  { label: 'Eventos', value: '9' },
+  { label: 'Autos', value: '10' },
+  { label: 'Saúde', value: '11' },
 ];
 
 export default function Cadastro({ navigation }) {
@@ -122,8 +125,8 @@ export default function Cadastro({ navigation }) {
                                 />
                                 <Pressable onPress={togglePasswordVisibility} style={styles.iconeOlho}> 
                                     {viewPass ? 
-                                        (<Icones name="eye" size={25} color="#282828" />) :
-                                        (<Icones name="eye-off" size={25} color="#282828" />)}
+                                        (<Icones name="eye-off" size={25} color="#282828" />) :
+                                        (<Icones name="eye" size={25} color="#282828" />)}
                                 </Pressable>
                             </View>
                             <View style={styles.inputSenha}>
@@ -135,8 +138,8 @@ export default function Cadastro({ navigation }) {
                                 />
                                 <Pressable onPress={toggleConfirmPasswordVisibility} style={styles.iconeOlho}> 
                                     {viewConfirmPass ? 
-                                        (<Icones name="eye" size={25} color="#282828" />) :
-                                        (<Icones name="eye-off" size={25} color="#282828" />)}
+                                        (<Icones name="eye-off" size={25} color="#282828" />) :
+                                        (<Icones name="eye" size={25} color="#282828" />)}
                                 </Pressable>
                             </View>
                             <TextInput 
@@ -166,7 +169,7 @@ export default function Cadastro({ navigation }) {
                             />
                         </View>
 
-                        <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('Inicio')}>
+                        <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('Conf')}>
                             <Text style={styles.botaoTexto}>Cadastrar</Text>
                         </TouchableOpacity>
 

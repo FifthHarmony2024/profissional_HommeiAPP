@@ -41,15 +41,15 @@ export default function Login({ navigation }) {
                                 />
                                 <Pressable onPress={togglePasswordVisibility} style={styles.iconeOlho}> 
                                     {viewPass ? 
-                                        (<Icones name="eye" size={25} color="#8A8A8A" />) :
-                                        (<Icones name="eye-off" size={25} color="#8A8A8A" />)}
+                                        (<Icones name="eye-off" size={25} color="#8A8A8A" />) :
+                                        (<Icones name="eye" size={25} color="#8A8A8A" />)}
                                 </Pressable>
                             </View>
                         </View>
 
                         <Text style={styles.linkTexto}>Esqueci minha senha</Text>
 
-                        <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('EntrarLogin')}>
+                        <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('Tela')}>
                             <Text style={styles.botaoTexto}>Entrar</Text>
                         </TouchableOpacity>
                         
