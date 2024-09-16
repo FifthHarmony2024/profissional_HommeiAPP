@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, ScrollView, Pressable } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, ScrollView, Pressable, toggleConPasswordVisibility } from "react-native";
 
 export default function Confirmação({ navigation }){
 
@@ -14,9 +14,7 @@ export default function Confirmação({ navigation }){
         setViewConPass(!viewConPass);
     }
 
-    return(
-        
-    )
+    return(Confirmação)
 }
 
 
