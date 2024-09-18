@@ -169,12 +169,12 @@ export default function Cadastro({ navigation }) {
                             />
                         </View>
 
-                        <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('Conf')}>
+                        <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('ConfirPrestador')}>
                             <Text style={styles.botaoTexto}>Cadastrar</Text>
                         </TouchableOpacity>
 
                         <Text style={styles.cadastroTexto}>
-                            Já possui conta? <Text style={styles.cadastroLink} onPress={() => navigation.navigate('EntrarLogin')}>Entrar</Text>
+                            Já possui conta? <Text style={styles.cadastroLink} onPress={() => navigation.navigate('EntrarLoginPrestador')}>Entrar</Text>
                         </Text>
                     </View>
 

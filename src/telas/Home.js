@@ -13,7 +13,7 @@ export default function Home({ navigation }) {
         </View>
         <Image source={nomeLogo} style={style.nome} resizeMode="contain" />
         <TouchableOpacity style={style.botao}>
-          <Text style={style.botaoTexto} onPress={() => navigation.navigate('EntrarLogin2')}>Iniciar</Text>
+          <Text style={style.botaoTexto} onPress={() => navigation.navigate('Perfil')}>Iniciar</Text>
         </TouchableOpacity>
       </View>
   );

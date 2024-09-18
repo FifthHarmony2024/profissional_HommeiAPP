@@ -4,10 +4,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 
 import Home from './src/telas/Home';
-import login2 from './src/telas/Login/Login2';
-import Login from './src/telas/Login/Login';
-import Cadastro from './src/telas/Cadastro/Cadastro';
-import Confirmação from './src/telas/Confirmação/Confirmação';
+import Login from './src/telas/Prestador/Login/Login';
+import Cadastro from './src/telas/Prestador/Cadastro/Cadastro';
+import Confirmação from './src/telas/Prestador/Confirmação/Confirmação';
+import TipoPerfil from './src/telas/TipoPerfil/Perfil';
 
 const Stack = createStackNavigator();
 
@@ -17,10 +17,10 @@ export default function App() {
         <StatusBar backgroundColor='#F5F5F5' barStyle="dark-content"></StatusBar>
         <Stack.Navigator>
           <Stack.Screen name="Inicio" component={Home} options={{headerShown: false}}/>
-          <Stack.Screen name="EntrarLogin2" component={login2} options={{headerShown: false}}/>
-          <Stack.Screen name="EntrarLogin" component={Login} options={{headerShown: false}}/>
-          <Stack.Screen name="Cad" component={Cadastro} options={{headerShown: false}}/>
-          <Stack.Screen name="Conf" component={Confirmação} options={{headerShown: false}}/>
+          <Stack.Screen name="Perfil" component={TipoPerfil} options={{headerShown: false}}/>
+          <Stack.Screen name="EntrarLoginPrestador" component={Login} options={{headerShown: false}}/>
+          <Stack.Screen name="CadPrestador" component={Cadastro} options={{headerShown: false}}/>
+          <Stack.Screen name="ConfirPrestador" component={Confirmação} options={{headerShown: false}}/>
           
 
         </Stack.Navigator>

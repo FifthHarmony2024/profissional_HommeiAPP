@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, TouchableOpacity, TextInput, KeyboardAvoidingVi
 import Icones from 'react-native-vector-icons/Feather';
 import Icone from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from "react-native-vector-icons/EvilIcons";
+
 export default function Login({ navigation }) {
 
     const [viewPass, setViewPass] = useState(true);
@@ -56,13 +57,14 @@ export default function Login({ navigation }) {
                     </View>
                     
                     <Text style={styles.cadastroTexto}>
-                        Não possui conta? <Text style={styles.cadastroLink} onPress={() => navigation.navigate('Cad')}>Cadastre-se</Text>
+                        Não possui conta? <Text style={styles.cadastroLink} onPress={() => navigation.navigate('CadPrestador')}>Cadastre-se</Text>
                     </Text>
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
     );
-}const styles = StyleSheet.create({
+}
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
