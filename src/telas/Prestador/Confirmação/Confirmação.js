@@ -1,24 +1,207 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, ScrollView, Pressable, toggleConPasswordVisibility } from "react-native";
+import { Text, View, StyleSheet, TextInput, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity } from "react-native";
+import { AntDesign } from '@expo/vector-icons'; 
+import Icones from 'react-native-vector-icons/Feather';
 
-export default function Confirmação(){
-    return(
-          <View style={styles.container}>
-            <Text>Tela COnfirmacao</Text>
-          </View>
-    )
+export default function Confirmacao() {
+    const [codigo, setCodigo] = useState(["", "", "", ""]);
 
+    const handleChangeText = (text, index) => {
+        const novoCodigo = [...codigo];
+        novoCodigo[index] = text;
+        setCodigo(novoCodigo);
 
+        if (text.length === 1 && index < 3) {
+            const proximoInput = `input${index + 1}`;
+            this[proximoInput].focus();
+        }
+    };
+
+    return (
+        <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }} bounces={false}>
+                <View style={styles.container}>
+                    <View style={styles.fundo}>
+                        <Icones 
+                                style={styles.seta} 
+                                name="chevron-left" 
+                                size={40} 
+                                color='#ffffff'  
+                                onPress={() => navigation.goBack('EntrarLogin')} 
+                            />
+                        <Text style={styles.titulo}>Confirmação</Text>
+
+                         <View style={styles.containerProgresso}>
+                            <View style={styles.circulo}>
+                                <AntDesign name="check" size={20} color="#FFF" />
+                            </View>
+                            <View style={styles.linha} />
+                            <View style={styles.circuloAtivo}>
+                                <View style={styles.circuloInterno} />
+                            </View>
+                            <View style={styles.linhaInativa} />
+                            <View style={styles.circuloInativo} />
+                        </View>
+
+                        <Text style={styles.subtitulo}>
+                            Enviamos um código para o e-mail e2......ho@gm....om
+                        </Text>
+
+                        <View style={styles.containerCodigo}>
+                            {codigo.map((valor, index) => (
+                                <TextInput
+                                    key={index}
+                                    ref={(input) => { this[`input${index}`] = input; }}
+                                    style={styles.inputCodigo}
+                                    maxLength={1}
+                                    keyboardType="numeric"
+                                    value={valor}
+                                    onChangeText={(text) => handleChangeText(text, index)}
+                                />
+                            ))}
+                        </View>
+
+                        <TouchableOpacity>
+                            <Text style={styles.link}>Reenviar código</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity>
+                            <Text style={styles.link}>Enviar de outra forma</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('')}>
+                            <Text style={styles.botaoTexto}>Continuar</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </ScrollView>
+        </KeyboardAvoidingView>
+    );
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5F5F5',
-    },})
-
-
-   
-    
-  
+    },
+    fundo: {
+        width: '100%',
+        height: 700,
+        backgroundColor: '#4E40A2',
+        borderBottomLeftRadius: 200,
+        borderBottomRightRadius: 200,
+        alignItems: 'center',
+        paddingVertical: 50,
+        position: 'absolute',
+        top: 0,
+    },
+    titulo: {
+        fontSize: 30,
+        color: '#FFFFFF',
+        marginBottom: 30,
+        marginTop: 70,
+    },
+    containerProgresso: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 30,
+    },
+    circulo: {
+        width: 30,
+        height: 30,
+        borderRadius: 15,
+        backgroundColor: '#FE914E', 
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    circuloAtivo: {
+        width: 30,
+        height: 30,
+        borderRadius: 15,
+        borderWidth: 2,
+        borderColor: '#FE914E',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    circuloInterno: {
+        width: 15,
+        height: 15,
+        borderRadius: 7.5,
+        backgroundColor: '#FE914E',
+    },
+    circuloInativo: {
+        width: 30,
+        height: 30,
+        borderRadius: 15,
+        borderWidth: 2,
+        borderColor: '#FFFFFF', 
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    linha: {
+        width: 50,
+        height: 2,
+        backgroundColor: '#FE914E',
+    },
+    linhaInativa: {
+        width: 50,
+        height: 2,
+        backgroundColor: '#FFFFFF',
+    },
+    titulo: {
+        fontSize: 30,
+        color: '#FFFFFF',
+        marginBottom: 20,
+        marginTop: 10,
+    },
+    subtitulo: {
+        fontSize: 16,
+        color: '#FFFFFF',
+        marginBottom: 30,
+        textAlign: 'center',
+    },
+    containerCodigo: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '80%',
+        marginBottom: 20,
+    },
+    inputCodigo: {
+        backgroundColor: '#FFFFFF',
+        borderRadius: 10,
+        width: 60,
+        height: 60,
+        textAlign: 'center',
+        fontSize: 24,
+        color: '#000000',
+    },
+    link: {
+        color: '#FFFFFF',
+        marginTop: 10,
+        textDecorationLine: 'underline',
+    },
+    seta: {
+        position: 'absolute',
+        top: 84, 
+        left: 20,
+    },
+    botao: {
+        backgroundColor: '#FE914E',
+        borderRadius: 50,
+        width: '60%',
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 100,
+    },
+    botaoTexto: {
+        fontSize: 18,
+        color: '#FFFFFF',
+        fontWeight: 'bold'
+    }
+});

@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     fundoRoxo: {
         width: '100%',
         height: 700,
-        backgroundColor: '#3A3074', 
+        backgroundColor: '#4E40A2', 
         borderBottomLeftRadius: 200, 
         borderBottomRightRadius: 200, 
         alignItems: 'center',

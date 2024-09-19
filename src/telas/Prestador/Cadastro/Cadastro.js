@@ -1,28 +1,39 @@
 import React, { useState } from "react";
-import { Text, StyleSheet, View, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, Pressable, Image } from "react-native";
+import { Text, StyleSheet, View, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, Pressable } from "react-native";
 import Icones from 'react-native-vector-icons/Feather';
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 const data = [
-  { label: 'Moda e Beleza', value: '1' },
-  { label: 'Serviços Domésticos', value: '2' },
-  { label: 'Assistência Técnica', value: '3' },
-  { label: 'Aulas', value: '4' },
-  { label: 'Reformas e Reparos', value: '5' },
-  { label: 'Consultoria', value: '6' },
-  { label: 'Transporte', value: '7' },
-  { label: 'Design e Tecnologia', value: '8' },
-  { label: 'Eventos', value: '9' },
-  { label: 'Autos', value: '10' },
-  { label: 'Saúde', value: '11' },
+    { label: 'Moda e Beleza', value: '1' },
+    { label: 'Serviços Domésticos', value: '2' },
+    { label: 'Assistência Técnica', value: '3' },
+    { label: 'Aulas', value: '4' },
+    { label: 'Reformas e Reparos', value: '5' },
+    { label: 'Consultoria', value: '6' },
+    { label: 'Transporte', value: '7' },
+    { label: 'Design e Tecnologia', value: '8' },
+    { label: 'Eventos', value: '9' },
+    { label: 'Autos', value: '10' },
+    { label: 'Saúde', value: '11' },
+];
+
+const perfil = [
+    { label: 'Microempreendedor Individual', value: '1' },
+    { label: 'Autônomo', value: '2' }
 ];
 
 export default function Cadastro({ navigation }) {
     const [viewPass, setViewPass] = useState(true);
     const [viewConfirmPass, setViewConfirmPass] = useState(true);
-    const [value, setValue] = useState(null);
-    const [isFocus, setIsFocus] = useState(false);
+    
+    const [categoriaValue, setCategoriaValue] = useState(null);
+    const [categoriaFocus, setCategoriaFocus] = useState(false);
+
+    const [perfilValue, setPerfilValue] = useState(null);
+    const [perfilFocus, setPerfilFocus] = useState(false);
+
+    const [documento, setDocumento] = useState('');
 
     function togglePasswordVisibility() {
         setViewPass(!viewPass);
@@ -32,11 +43,22 @@ export default function Cadastro({ navigation }) {
         setViewConfirmPass(!viewConfirmPass);
     }
 
-    const renderLabel = () => {
-      if (value || isFocus) {
+    const renderLabelCategoria = () => {
+      if (categoriaValue || categoriaFocus) {
         return (
-          <Text style={[styles.label, { top: -10, left: 15, fontSize: 12, color: isFocus ? 'blue' : '#4E40A2' }]}>
+          <Text style={[styles.label, { top: -10, left: 15, fontSize: 12, color: categoriaFocus ? 'blue' : '#4E40A2' }]}>
             Categoria
+          </Text>
+        );
+      }
+      return null;
+    };
+
+    const renderLabelPerfil = () => {
+      if (perfilValue || perfilFocus) {
+        return (
+          <Text style={[styles.label, { top: -10, left: 15, fontSize: 12, color: perfilFocus ? 'blue' : '#4E40A2' }]}>
+            Perfil
           </Text>
         );
       }
@@ -77,11 +99,17 @@ export default function Cadastro({ navigation }) {
                                 placeholder="E-mail"
                                 placeholderTextColor="#282828"
                             />
-                            
+                             <TextInput 
+                                style={styles.campos}
+                                placeholder="Telefone"
+                                placeholderTextColor="#282828"
+                                keyboardType="numeric"
+                            />
+
                             <View style={styles.dropdownContainer}>
-                                {renderLabel()}
+                                {renderLabelCategoria()}
                                 <Dropdown
-                                    style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+                                    style={[styles.dropdown, categoriaFocus && { borderColor: 'blue' }]}
                                     placeholderStyle={styles.placeholderStyle}
                                     selectedTextStyle={styles.selectedTextStyle}
                                     inputSearchStyle={styles.inputSearchStyle}
@@ -91,25 +119,77 @@ export default function Cadastro({ navigation }) {
                                     maxHeight={300}
                                     labelField="label"
                                     valueField="value"
-                                    placeholder={!isFocus ? 'Selecione uma categoria' : '...'}
+                                    placeholder={!categoriaFocus ? 'Selecione uma categoria' : '...'}
                                     searchPlaceholder="Pesquisar..."
-                                    value={value}
-                                    onFocus={() => setIsFocus(true)}
-                                    onBlur={() => setIsFocus(false)}
+                                    value={categoriaValue}
+                                    onFocus={() => setCategoriaFocus(true)}
+                                    onBlur={() => setCategoriaFocus(false)}
                                     onChange={item => {
-                                        setValue(item.value);
-                                        setIsFocus(false);
+                                        setCategoriaValue(item.value);
+                                        setCategoriaFocus(false);
                                     }}
                                     renderLeftIcon={() => (
                                         <AntDesign
                                           style={styles.icon}
-                                          color={isFocus ? '#4E40A2' : '#8A8A8A'}
+                                          color={categoriaFocus ? '#4E40A2' : '#8A8A8A'}
                                           name="Safety"
                                           size={20}
                                         />
                                     )}
                                 />
                             </View>
+
+                            <View style={styles.dropdownContainer}>
+                                {renderLabelPerfil()}
+                                <Dropdown
+                                    style={[styles.dropdown, perfilFocus && { borderColor: 'blue' }]}
+                                    placeholderStyle={styles.placeholderStyle}
+                                    selectedTextStyle={styles.selectedTextStyle}
+                                    inputSearchStyle={styles.inputSearchStyle}
+                                    iconStyle={styles.iconStyle}
+                                    data={perfil}
+                                    search={false}
+                                    maxHeight={300}
+                                    labelField="label"
+                                    valueField="value"
+                                    placeholder={!perfilFocus ? 'Selecione um perfil' : '...'}
+                                    value={perfilValue}
+                                    onFocus={() => setPerfilFocus(true)}
+                                    onBlur={() => setPerfilFocus(false)}
+                                    onChange={item => {
+                                        setPerfilValue(item.value);
+                                        setPerfilFocus(false);
+                                    }}
+                                    renderLeftIcon={() => (
+                                        <AntDesign
+                                          style={styles.icon}
+                                          color={perfilFocus ? '#4E40A2' : '#8A8A8A'}
+                                          name="Safety"
+                                          size={20}
+                                        />
+                                    )}
+                                />
+                            </View>
+
+                            {perfilValue === '1' ? (
+                                <TextInput 
+                                    style={styles.campos}
+                                    placeholder="CNPJ"
+                                    placeholderTextColor="#282828"
+                                    keyboardType="numeric"
+                                    value={documento}
+                                    onChangeText={setDocumento}
+                                />
+                            ) : perfilValue === '2' ? (
+                                <TextInput 
+                                    style={styles.campos}
+                                    placeholder="CPF"
+                                    placeholderTextColor="#282828"
+                                    keyboardType="numeric"
+                                    value={documento}
+                                    onChangeText={setDocumento}
+                                />
+                            ) : null}
 
                             <TextInput 
                                 style={styles.campos}
@@ -146,6 +226,7 @@ export default function Cadastro({ navigation }) {
                                 style={styles.campos}
                                 placeholder="CEP"
                                 placeholderTextColor="#282828"
+                                keyboardType="numeric"
                             />
                             <TextInput 
                                 style={styles.campos}
@@ -161,6 +242,7 @@ export default function Cadastro({ navigation }) {
                                 style={styles.campos}
                                 placeholder="Nº Residencial"
                                 placeholderTextColor="#282828"
+                                keyboardType="numeric"
                             />
                             <TextInput 
                                 style={styles.campos}
@@ -178,7 +260,6 @@ export default function Cadastro({ navigation }) {
                         </Text>
                     </View>
 
-                   
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
