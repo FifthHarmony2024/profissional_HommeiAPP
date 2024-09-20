@@ -90,5 +90,5 @@ const styles = StyleSheet.create({
   lgPerfil: {
     width: 300,
     height:300,
-  },
+  }
 });

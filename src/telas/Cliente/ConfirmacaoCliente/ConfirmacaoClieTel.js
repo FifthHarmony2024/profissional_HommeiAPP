@@ -5,7 +5,7 @@ import Icones from 'react-native-vector-icons/Feather';
 
 import lgConfi from '../../../../assets/logoConf.png'
 
-export default function ConfirmacaoCli({navigation}) {
+export default function ConfirmacaoClieTel({navigation}) {
     const [codigo, setCodigo] = useState(["", "", "", ""]);
 
     const handleChangeText = (text, index) => {
@@ -33,7 +33,7 @@ export default function ConfirmacaoCli({navigation}) {
                                 name="chevron-left" 
                                 size={40} 
                                 color='#ffffff'  
-                                onPress={() => navigation.goBack('CadCliente')} 
+                                onPress={() => navigation.navigate('CadCliente')} 
                             />
                         <Text style={styles.titulo}>Confirmação</Text>
 
@@ -50,7 +50,7 @@ export default function ConfirmacaoCli({navigation}) {
                         </View>
 
                         <Text style={styles.subtitulo}>
-                            Enviamos um código para o e-mail e2......ho@gm....om
+                            Enviamos um código para o telefone (xx) xxxx-xxxx
                         </Text>
 
                         <View style={styles.containerCodigo}>
@@ -72,7 +72,7 @@ export default function ConfirmacaoCli({navigation}) {
                         </TouchableOpacity>
 
                         <TouchableOpacity>
-                            <Text style={styles.link} onPress={() => navigation.navigate('ConfirClieTel')}>Enviar de outra forma</Text>
+                            <Text style={styles.link} onPress={() => navigation.navigate('ConfiClie')}>Enviar de outra forma</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('')}>

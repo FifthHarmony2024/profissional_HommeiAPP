@@ -11,6 +11,8 @@ import TipoPerfil from './src/telas/TipoPerfil/Perfil';
 import LoginCliente from './src/telas/Cliente/Login/LoginCliente'
 import CadastroClie from './src/telas/Cliente/Cadastro/CadastroClie';
 import ConfirmacaoCli from './src/telas/Cliente/ConfirmacaoCliente/ConfirmacaoCli';
+import ConfirmacaoTel from './src/telas/Prestador/Confirmação/ConfirmacaoTel';
+import ConfirmacaoClieTel from './src/telas/Cliente/ConfirmacaoCliente/ConfirmacaoClieTel';
 
 const Stack = createStackNavigator();
 
@@ -27,6 +29,8 @@ export default function App() {
           <Stack.Screen name="EntrarLoginCliente" component={LoginCliente} options={{headerShown: false}}/>
           <Stack.Screen name="CadCliente" component={CadastroClie} options={{headerShown:false}}/>
           <Stack.Screen name="ConfiClie" component={ConfirmacaoCli} options={{headerShown:false}}/>
+          <Stack.Screen name="ConfirPresTel" component={ConfirmacaoTel} options={{headerShown:false}}/>
+          <Stack.Screen name="ConfirClieTel" component={ConfirmacaoClieTel} options={{headerShown:false}}/>
 
 
         </Stack.Navigator>

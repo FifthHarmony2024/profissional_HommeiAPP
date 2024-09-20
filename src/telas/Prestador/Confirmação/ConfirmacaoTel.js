@@ -5,7 +5,7 @@ import Icones from 'react-native-vector-icons/Feather';
 
 import lgConfi from '../../../../assets/logoConf.png'
 
-export default function ConfirmacaoCli({navigation}) {
+export default function ConfirmacaoTel({navigation}) {
     const [codigo, setCodigo] = useState(["", "", "", ""]);
 
     const handleChangeText = (text, index) => {
@@ -33,7 +33,7 @@ export default function ConfirmacaoCli({navigation}) {
                                 name="chevron-left" 
                                 size={40} 
                                 color='#ffffff'  
-                                onPress={() => navigation.goBack('CadCliente')} 
+                                onPress={() => navigation.navigate('CadPrestador')} 
                             />
                         <Text style={styles.titulo}>Confirmação</Text>
 
@@ -50,7 +50,7 @@ export default function ConfirmacaoCli({navigation}) {
                         </View>
 
                         <Text style={styles.subtitulo}>
-                            Enviamos um código para o e-mail e2......ho@gm....om
+                            Enviamos um código para o telefone (xx) xxxx-xxxx
                         </Text>
 
                         <View style={styles.containerCodigo}>
@@ -72,7 +72,7 @@ export default function ConfirmacaoCli({navigation}) {
                         </TouchableOpacity>
 
                         <TouchableOpacity>
-                            <Text style={styles.link} onPress={() => navigation.navigate('ConfirClieTel')}>Enviar de outra forma</Text>
+                            <Text style={styles.link} onPress={() => navigation.navigate('ConfirPrestador')}>Enviar de outra forma</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('')}>
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     fundo: {
         width: '100%',
         height: 700,
-        backgroundColor: '#FF8E4E',
+        backgroundColor: '#4E40A2',
         borderBottomLeftRadius: 200,
         borderBottomRightRadius: 200,
         alignItems: 'center',
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
             width: 30,
             height: 30,
             borderRadius: 15,
-            backgroundColor: '#4E40A2',
+            backgroundColor: '#FE914E',
             justifyContent: 'center',
             alignItems: 'center',
         },
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
             height: 30,
             borderRadius: 15,
             borderWidth: 2,
-            borderColor: '#4E40A2',
+            borderColor: '#FE914E',
             justifyContent: 'center',
             alignItems: 'center',
         },
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
             width: 15,
             height: 15,
             borderRadius: 7.5,
-            backgroundColor: '#4E40A2',
+            backgroundColor: '#FE914E',
         },
         circuloInativo: {
             width: 30,
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
         linha: {
             width: 100, 
             height: 2,
-            backgroundColor: '#4E40A2',
+            backgroundColor: '#FE914E',
             marginHorizontal: 10, 
         },
         linhaInativa: {
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
         left: 20,
     },
     botao: {
-        backgroundColor: '#4E40A2',
+        backgroundColor: '#FE914E',
         borderRadius: 50,
         width: '60%',
         height: 50,

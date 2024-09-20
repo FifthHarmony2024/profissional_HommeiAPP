@@ -52,6 +52,12 @@ export default function CadastroClie({ navigation }) {
                                 placeholder="E-mail"
                                 placeholderTextColor="#282828"
                             />
+                             <TextInput 
+                                style={styles.campos}
+                                placeholder="CPF"
+                                placeholderTextColor="#282828"
+                                keyboardType="numeric"
+                            />
                             <TextInput 
                                 style={styles.campos}
                                 placeholder="Telefone"

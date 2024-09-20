@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet, TextInput, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, TextInput, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity, Image } from "react-native";
 import { AntDesign } from '@expo/vector-icons'; 
 import Icones from 'react-native-vector-icons/Feather';
 
-export default function Confirmacao() {
+import lgConfi from '../../../../assets/logoConf.png'
+
+export default function Confirmacao({navigation}) {
     const [codigo, setCodigo] = useState(["", "", "", ""]);
 
     const handleChangeText = (text, index) => {
@@ -20,7 +22,8 @@ export default function Confirmacao() {
     return (
         <KeyboardAvoidingView
             style={{ flex: 1 }}
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            behavior={Platform.OS === "ios" ? "position" : "none"} 
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0} 
         >
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} bounces={false}>
                 <View style={styles.container}>
@@ -30,7 +33,7 @@ export default function Confirmacao() {
                                 name="chevron-left" 
                                 size={40} 
                                 color='#ffffff'  
-                                onPress={() => navigation.goBack('EntrarLogin')} 
+                                onPress={() => navigation.goBack('CadPrestador')} 
                             />
                         <Text style={styles.titulo}>Confirmação</Text>
 
@@ -69,7 +72,7 @@ export default function Confirmacao() {
                         </TouchableOpacity>
 
                         <TouchableOpacity>
-                            <Text style={styles.link}>Enviar de outra forma</Text>
+                            <Text style={styles.link} onPress={() => navigation.navigate('ConfirPresTel')}>Enviar de outra forma</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('')}>
@@ -77,7 +80,11 @@ export default function Confirmacao() {
                         </TouchableOpacity>
                     </View>
                 </View>
+                <View style={styles.logoContainer}>
+                        <Image source={lgConfi} style={styles.lgConfi} resizeMode="contain" />
+                </View>
             </ScrollView>
+                  
         </KeyboardAvoidingView>
     );
 }
@@ -99,60 +106,67 @@ const styles = StyleSheet.create({
         paddingVertical: 50,
         position: 'absolute',
         top: 0,
+        paddingTop: 73, 
     },
     titulo: {
         fontSize: 30,
         color: '#FFFFFF',
-        marginBottom: 30,
-        marginTop: 70,
+        marginBottom: 20,
+        marginTop: 0,  
     },
     containerProgresso: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 30,
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginBottom: 50,
+            marginTop: 20,
+            justifyContent: 'space-between', 
+            width: '80%', 
+        },
+        circulo: {
+            width: 30,
+            height: 30,
+            borderRadius: 15,
+            backgroundColor: '#FE914E',
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        circuloAtivo: {
+            width: 30,
+            height: 30,
+            borderRadius: 15,
+            borderWidth: 2,
+            borderColor: '#FE914E',
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        circuloInterno: {
+            width: 15,
+            height: 15,
+            borderRadius: 7.5,
+            backgroundColor: '#FE914E',
+        },
+        circuloInativo: {
+            width: 30,
+            height: 30,
+            borderRadius: 15,
+            borderWidth: 2,
+            borderColor: '#FFFFFF',
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        linha: {
+            width: 100, 
+            height: 2,
+            backgroundColor: '#FE914E',
+            marginHorizontal: 10, 
+        },
+        linhaInativa: {
+            width: 100, 
+            height: 2,
+            backgroundColor: '#FFFFFF',
+            marginHorizontal: 10, 
     },
-    circulo: {
-        width: 30,
-        height: 30,
-        borderRadius: 15,
-        backgroundColor: '#FE914E', 
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    circuloAtivo: {
-        width: 30,
-        height: 30,
-        borderRadius: 15,
-        borderWidth: 2,
-        borderColor: '#FE914E',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    circuloInterno: {
-        width: 15,
-        height: 15,
-        borderRadius: 7.5,
-        backgroundColor: '#FE914E',
-    },
-    circuloInativo: {
-        width: 30,
-        height: 30,
-        borderRadius: 15,
-        borderWidth: 2,
-        borderColor: '#FFFFFF', 
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    linha: {
-        width: 50,
-        height: 2,
-        backgroundColor: '#FE914E',
-    },
-    linhaInativa: {
-        width: 50,
-        height: 2,
-        backgroundColor: '#FFFFFF',
-    },
+        
     titulo: {
         fontSize: 30,
         color: '#FFFFFF',
@@ -160,7 +174,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     subtitulo: {
-        fontSize: 16,
+        fontSize: 20,
         color: '#FFFFFF',
         marginBottom: 30,
         textAlign: 'center',
@@ -173,7 +187,7 @@ const styles = StyleSheet.create({
     },
     inputCodigo: {
         backgroundColor: '#FFFFFF',
-        borderRadius: 10,
+        borderRadius: 18,
         width: 60,
         height: 60,
         textAlign: 'center',
@@ -184,6 +198,7 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         marginTop: 10,
         textDecorationLine: 'underline',
+        alignSelf: 'center',
     },
     seta: {
         position: 'absolute',
@@ -203,5 +218,16 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#FFFFFF',
         fontWeight: 'bold'
+    },
+    logoContainer: {
+        position: 'absolute', 
+        bottom: -87, 
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+      },
+    lgConfi: {
+        width: 250,
+        height:250,
     }
 });
