@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Text, View, StyleSheet, TextInput, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity, Image } from "react-native";
 import { AntDesign } from '@expo/vector-icons'; 
 import Icones from 'react-native-vector-icons/Feather';
 
 import lgConfi from '../../../../assets/logoConf.png'
 
-export default function ConfirmacaoCli({navigation}) {
+export default function ConfirmacaoCli({ navigation }) {
     const [codigo, setCodigo] = useState(["", "", "", ""]);
+    const inputsRef = useRef([]);
 
     const handleChangeText = (text, index) => {
         const novoCodigo = [...codigo];
@@ -14,8 +15,7 @@ export default function ConfirmacaoCli({navigation}) {
         setCodigo(novoCodigo);
 
         if (text.length === 1 && index < 3) {
-            const proximoInput = `input${index + 1}`;
-            this[proximoInput].focus();
+            inputsRef.current[index + 1].focus();
         }
     };
 
@@ -29,15 +29,15 @@ export default function ConfirmacaoCli({navigation}) {
                 <View style={styles.container}>
                     <View style={styles.fundo}>
                         <Icones 
-                                style={styles.seta} 
-                                name="chevron-left" 
-                                size={40} 
-                                color='#ffffff'  
-                                onPress={() => navigation.goBack('CadCliente')} 
-                            />
+                            style={styles.seta} 
+                            name="chevron-left" 
+                            size={40} 
+                            color='#ffffff'  
+                            onPress={() => navigation.goBack('CadCliente')} 
+                        />
                         <Text style={styles.titulo}>Confirmação</Text>
 
-                         <View style={styles.containerProgresso}>
+                        <View style={styles.containerProgresso}>
                             <View style={styles.circulo}>
                                 <AntDesign name="check" size={20} color="#FFF" />
                             </View>
@@ -57,7 +57,7 @@ export default function ConfirmacaoCli({navigation}) {
                             {codigo.map((valor, index) => (
                                 <TextInput
                                     key={index}
-                                    ref={(input) => { this[`input${index}`] = input; }}
+                                    ref={(input) => { inputsRef.current[index] = input; }}
                                     style={styles.inputCodigo}
                                     maxLength={1}
                                     keyboardType="numeric"
@@ -75,16 +75,15 @@ export default function ConfirmacaoCli({navigation}) {
                             <Text style={styles.link} onPress={() => navigation.navigate('ConfirClieTel')}>Enviar de outra forma</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('')}>
+                        <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('TermoCliente')}>
                             <Text style={styles.botaoTexto}>Continuar</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
                 <View style={styles.logoContainer}>
-                        <Image source={lgConfi} style={styles.lgConfi} resizeMode="contain" />
+                    <Image source={lgConfi} style={styles.lgConfi} resizeMode="contain" />
                 </View>
             </ScrollView>
-                  
         </KeyboardAvoidingView>
     );
 }

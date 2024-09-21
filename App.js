@@ -13,6 +13,8 @@ import CadastroClie from './src/telas/Cliente/Cadastro/CadastroClie';
 import ConfirmacaoCli from './src/telas/Cliente/ConfirmacaoCliente/ConfirmacaoCli';
 import ConfirmacaoTel from './src/telas/Prestador/Confirmação/ConfirmacaoTel';
 import ConfirmacaoClieTel from './src/telas/Cliente/ConfirmacaoCliente/ConfirmacaoClieTel';
+import TermoUsoPrest from './src/telas/Prestador/TermoPres/TermoUsoPrest';
+import TermoUsoCliente from './src/telas/Cliente/TermoClie/TermoUsoCliente';
 
 const Stack = createStackNavigator();
 
@@ -31,6 +33,8 @@ export default function App() {
           <Stack.Screen name="ConfiClie" component={ConfirmacaoCli} options={{headerShown:false}}/>
           <Stack.Screen name="ConfirPresTel" component={ConfirmacaoTel} options={{headerShown:false}}/>
           <Stack.Screen name="ConfirClieTel" component={ConfirmacaoClieTel} options={{headerShown:false}}/>
+          <Stack.Screen name="TermoPrestador" component={TermoUsoPrest} options={{headerShown:false}}/>
+          <Stack.Screen name="TermoCliente" component={TermoUsoCliente} options={{headerShown:false}}/>
 
 
         </Stack.Navigator>
