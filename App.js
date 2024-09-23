@@ -2,7 +2,6 @@ import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-
 import Home from './src/telas/Home';
 import Login from './src/telas/Prestador/Login/Login';
 import Cadastro from './src/telas/Prestador/Cadastro/Cadastro';
@@ -15,6 +14,7 @@ import ConfirmacaoTel from './src/telas/Prestador/Confirmação/ConfirmacaoTel';
 import ConfirmacaoClieTel from './src/telas/Cliente/ConfirmacaoCliente/ConfirmacaoClieTel';
 import TermoUsoPrest from './src/telas/Prestador/TermoPres/TermoUsoPrest';
 import TermoUsoCliente from './src/telas/Cliente/TermoClie/TermoUsoCliente';
+import TelaPrestadorPerfil from './src/telas/Prestador/TelaPerfilPrestador/TelaPrestadorPerfil';
 
 const Stack = createStackNavigator();
 
@@ -35,6 +35,7 @@ export default function App() {
           <Stack.Screen name="ConfirClieTel" component={ConfirmacaoClieTel} options={{headerShown:false}}/>
           <Stack.Screen name="TermoPrestador" component={TermoUsoPrest} options={{headerShown:false}}/>
           <Stack.Screen name="TermoCliente" component={TermoUsoCliente} options={{headerShown:false}}/>
+          <Stack.Screen name="TelaPerfil" component={TelaPrestadorPerfil} options={{headerShown:false}}/>
 
 
         </Stack.Navigator>

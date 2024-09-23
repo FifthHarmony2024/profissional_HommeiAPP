@@ -1,8 +1,29 @@
-import React from "react";
-import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { Text, StyleSheet, View, TouchableOpacity, Switch, Alert } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 
 export default function TermoUsoPrest({ navigation }) {
+
+  const [isEnabled, setIsEnabled] = useState(false); 
+  const [messageVisible, setMessageVisible] = useState(false);
+
+  const toggleSwitch = () => {
+    setIsEnabled(previousState => !previousState);
+    setMessageVisible(false); 
+  };
+
+  const handleAccept = () => {
+    if (!isEnabled) {
+      setMessageVisible(true);
+    } else {
+      navigation.navigate('TelaPerfil'); 
+    }
+  };
+
+  const handleDecline = () => {
+    setMessageVisible(true); 
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.titulo}>Termos de Uso</Text>
@@ -26,18 +47,34 @@ export default function TermoUsoPrest({ navigation }) {
           Para continuar utilizando o aplicativo é necessário ler e aceitar nossos{' '}
           <Text style={styles.texto}>termos de uso</Text>.
         </Text>
+
+        <View style={styles.switchContainer}>
+          <Switch
+            trackColor={{ false: '#767577', true: '#4E40A2' }}
+            thumbColor={isEnabled ? '#FE914E' : '#f4f3f4'}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={toggleSwitch}
+            value={isEnabled}
+          />
+          <Text style={styles.switchLabel}>
+            Declaro que li e aceito os termos de uso.
+          </Text>
+        </View>
       </View>
 
-      <View style={styles.botoesContainer}>
+      {messageVisible && (
+        <Text style={styles.errorMessage}>
+          Enquanto você não aceitar os termos de uso, o aplicativo ficará inutilizável.
+        </Text>
+      )}
 
-        <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('')}>
+      <View style={styles.botoesContainer}>
+        <TouchableOpacity style={styles.botao} onPress={handleDecline}>
           <Text style={styles.botaoTexto}>Não Aceito</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('')}>
+        <TouchableOpacity style={styles.botao} onPress={handleAccept}>
           <Text style={styles.botaoTexto}>Aceito</Text>
         </TouchableOpacity>
-
-        
       </View>
     </View>
   );
@@ -54,12 +91,12 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: '#FFFFFF',
     marginBottom: 60,
-    marginTop: 15,
+    marginTop: 5
   },
   fundo: {
     backgroundColor: '#F0EBE0',
     width: '88%',
-    height: 500,
+    height: 480,
     borderRadius: 20,
     padding: 20,
     elevation: 5,
@@ -67,6 +104,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
+    justifyContent: 'space-between',
   },
   containerProgresso: {
     flexDirection: 'row',
@@ -112,15 +150,15 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   botoesContainer: {
-    flexDirection: 'row',  
-    justifyContent: 'space-between',  
-    width: '85%',  
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '85%',
     marginTop: 20,
   },
   botao: {
     backgroundColor: '#EEEEEE',
     borderRadius: 10,
-    width: '45%',  
+    width: '45%',
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
@@ -140,5 +178,23 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#4E40A2',
     fontWeight: 'bold',
+  },
+  switchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20, 
+  },
+  switchLabel: {
+    marginLeft: 10,
+    fontSize: 16,
+    color: '#000',
+  },
+  errorMessage: {
+    color: '#FFFFFF',
+    width:'85%',
+    marginTop: 10,
+    fontSize: 14,
+    textAlign: 'left',
   },
 });
