@@ -3,6 +3,7 @@ import { Text, StyleSheet, View, ScrollView, TextInput, TouchableOpacity, Keyboa
 import Icones from 'react-native-vector-icons/Feather';
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const data = [
     { label: 'Moda e Beleza', value: '1' },
@@ -35,6 +36,15 @@ export default function Cadastro({ navigation }) {
 
     const [documento, setDocumento] = useState('');
 
+    const [dataNascimento, setDataNascimento] = useState('');
+    const [showDatePicker, setShowDatePicker] = useState(false);
+
+    const onChangeDate = (event, selectedDate) => {
+        setShowDatePicker(false);  
+        if (event.type === 'set' && selectedDate) {  
+            setDataNascimento(selectedDate.toLocaleDateString('pt-BR'));
+        }
+    };
     function togglePasswordVisibility() {
         setViewPass(!viewPass);
     }
@@ -105,6 +115,26 @@ export default function Cadastro({ navigation }) {
                                 placeholderTextColor="#282828"
                                 keyboardType="numeric"
                             />
+
+                            <TouchableOpacity 
+                                style={[styles.campos, styles.dataNascimento]}  
+                                onPress={() => setShowDatePicker(true)}
+                            >
+                                <Text style={[styles.textoDataNascimento, !dataNascimento && { color: '#282828' }]}>
+                                    {dataNascimento || "Data de Nascimento"}
+                                </Text>
+                            </TouchableOpacity>
+
+                            {showDatePicker && (
+                                <DateTimePicker
+                                    value={new Date()} 
+                                    mode="date"
+                                    display="default"
+                                    onChange={onChangeDate} 
+                                    maximumDate={new Date(2006,11,31)} 
+                                    minimumDate={new Date(1940, 0, 1)}
+                                />
+                            )}
 
                             <View style={styles.dropdownContainer}>
                                 {renderLabelCategoria()}
@@ -404,5 +434,13 @@ const styles = StyleSheet.create({
         top: 55,
         left: -40, 
     },
+    dataNascimento: {
+        justifyContent: 'center',  
+    },
+    textoDataNascimento: {
+        fontSize: 15,             
+        color: '#282828',      
+        textAlign: 'left',         
+    }
     
 });

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Text, StyleSheet, View, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, Pressable } from "react-native";
 import Icones from 'react-native-vector-icons/Feather';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 
 
@@ -16,6 +17,17 @@ export default function CadastroClie({ navigation }) {
     function toggleConfirmPasswordVisibility() {
         setViewConfirmPass(!viewConfirmPass);
     }
+
+    
+    const [dataNascimento, setDataNascimento] = useState('');
+    const [showDatePicker, setShowDatePicker] = useState(false);
+
+    const onChangeDate = (event, selectedDate) => {
+        setShowDatePicker(false);  
+        if (event.type === 'set' && selectedDate) {  
+            setDataNascimento(selectedDate.toLocaleDateString('pt-BR'));
+        }
+    };
 
 
     return (
@@ -64,6 +76,25 @@ export default function CadastroClie({ navigation }) {
                                 placeholderTextColor="#282828"
                                 keyboardType="numeric"
                             />
+                            <TouchableOpacity 
+                                style={[styles.campos, styles.dataNascimento]}  
+                                onPress={() => setShowDatePicker(true)}
+                            >
+                                <Text style={[styles.textoDataNascimento, !dataNascimento && { color: '#282828' }]}>
+                                    {dataNascimento || "Data de Nascimento"}
+                                </Text>
+                            </TouchableOpacity>
+
+                            {showDatePicker && (
+                                <DateTimePicker
+                                    value={new Date()} 
+                                    mode="date"
+                                    display="default"
+                                    onChange={onChangeDate}
+                                    maximumDate={new Date(2006,11,31)} 
+                                    minimumDate={new Date(1940, 0, 1)}
+                                />
+                            )}
                              <TextInput 
                                 style={styles.campos}
                                 placeholder="CEP"
@@ -234,5 +265,12 @@ const styles = StyleSheet.create({
         top: 55,
         left: -40, 
     },
-    
+    dataNascimento: {
+        justifyContent: 'center',  
+    },
+    textoDataNascimento: {
+        fontSize: 15,             
+        color: '#282828',      
+        textAlign: 'left',         
+    }
 });
