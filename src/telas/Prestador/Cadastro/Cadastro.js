@@ -4,6 +4,8 @@ import Icones from 'react-native-vector-icons/Feather';
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import axios from 'axios';
+
 
 const data = [
     { label: 'Moda e Beleza', value: '1' },
@@ -35,9 +37,21 @@ export default function Cadastro({ navigation }) {
     const [perfilFocus, setPerfilFocus] = useState(false);
 
     const [documento, setDocumento] = useState('');
-
     const [dataNascimento, setDataNascimento] = useState('');
     const [showDatePicker, setShowDatePicker] = useState(false);
+    const [cep, setCep] = useState('');
+    const [bairro, setBairro] = useState('');
+    const [endereco, setEndereco] = useState('');
+    const [numResidencial, setNumResidencial] = useState('');
+    const [complementoResi, setComplementoResi] = useState('');
+    
+    const [nome, setNome] = useState('');
+    const [sobrenome, setSobrenome] = useState('');
+    const [email, setEmail] = useState('');
+    const [telefone, setTelefone] = useState('');
+    const [senha, setSenha] = useState('');
+    const [nomeComercial, setNomeComercial] = useState('');
+    const [confirmarSenha, setConfirmarSenha] = useState('');
 
     const onChangeDate = (event, selectedDate) => {
         setShowDatePicker(false);  
@@ -45,44 +59,71 @@ export default function Cadastro({ navigation }) {
             setDataNascimento(selectedDate.toLocaleDateString('pt-BR'));
         }
     };
-    function togglePasswordVisibility() {
-        setViewPass(!viewPass);
-    }
 
-    function toggleConfirmPasswordVisibility() {
+    const togglePasswordVisibility = () => {
+        setViewPass(!viewPass);
+    };
+
+    const toggleConfirmPasswordVisibility = () => {
         setViewConfirmPass(!viewConfirmPass);
-    }
+    };
 
     const renderLabelCategoria = () => {
-      if (categoriaValue || categoriaFocus) {
-        return (
-          <Text style={[styles.label, { top: -10, left: 15, fontSize: 12, color: categoriaFocus ? 'blue' : '#4E40A2' }]}>
-            Categoria
-          </Text>
-        );
-      }
-      return null;
+        if (categoriaValue || categoriaFocus) {
+            return (
+                <Text style={[styles.label, { top: -10, left: 15, fontSize: 12, color: categoriaFocus ? 'blue' : '#4E40A2' }]}>
+                    Categoria
+                </Text>
+            );
+        }
+        return null;
     };
 
     const renderLabelPerfil = () => {
-      if (perfilValue || perfilFocus) {
-        return (
-          <Text style={[styles.label, { top: -10, left: 15, fontSize: 12, color: perfilFocus ? 'blue' : '#4E40A2' }]}>
-            Perfil
-          </Text>
-        );
-      }
-      return null;
+        if (perfilValue || perfilFocus) {
+            return (
+                <Text style={[styles.label, { top: -10, left: 15, fontSize: 12, color: perfilFocus ? 'blue' : '#4E40A2' }]}>
+                    Perfil
+                </Text>
+            );
+        }
+        return null;
+    };
+
+    const Cadastro = async () => {
+        const usuarioPrestador = {
+            nome,
+            sobrenome,
+            email,
+            telefone,
+            dataNascimento,
+            categoriaServico: categoriaValue,
+            perfil: perfilValue,
+            documento: perfilValue === '1' ? documento : perfilValue === '2' ? documento : null,
+            nomeComercial,
+            senha,
+            confirmarSenha,
+            cep,
+            bairro,
+            endereco,
+            numResidencial,
+            complementoResi
+        };
+    
+        try {
+            const response = await axios.post('http://192.168.0.6:8080/usuarios/prestador', usuarioPrestador);
+            console.log('Usuário cadastrado:', response.data);
+            navigation.navigate('ConfirPrestador');
+        } catch (error) {
+            console.error('Erro na requisição:', error);
+        }
     };
 
     return (
-        <KeyboardAvoidingView
-            style={{ flex: 1 }}
-            behavior={Platform.OS === "ios" ? "padding" : "height"}>
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} bounces={false}>
                 <View style={styles.container}>
                     <View style={styles.circleBackground} />
-
                     <View style={styles.fundoRoxo}>
                         <Icones 
                             style={styles.seta} 
@@ -92,28 +133,35 @@ export default function Cadastro({ navigation }) {
                             onPress={() => navigation.goBack('EntrarLogin')} 
                         />
                         <Text style={styles.titulo}>Cadastre-se</Text>
-
                         <View style={styles.inputContainer}>
                             <TextInput 
                                 style={styles.campos}
                                 placeholder="Nome"
                                 placeholderTextColor="#282828"
+                                value={nome}
+                                onChangeText={setNome}
                             />
                             <TextInput 
                                 style={styles.campos}
                                 placeholder="Sobrenome"
                                 placeholderTextColor="#282828"
+                                value={sobrenome}
+                                onChangeText={setSobrenome}
                             />
                             <TextInput 
                                 style={styles.campos}
                                 placeholder="E-mail"
                                 placeholderTextColor="#282828"
+                                value={email}
+                                onChangeText={setEmail}
                             />
-                             <TextInput 
+                            <TextInput 
                                 style={styles.campos}
                                 placeholder="Telefone"
                                 placeholderTextColor="#282828"
                                 keyboardType="numeric"
+                                value={telefone}
+                                onChangeText={setTelefone}
                             />
 
                             <TouchableOpacity 
@@ -131,7 +179,7 @@ export default function Cadastro({ navigation }) {
                                     mode="date"
                                     display="default"
                                     onChange={onChangeDate} 
-                                    maximumDate={new Date(2006,11,31)} 
+                                    maximumDate={new Date(2006, 11, 31)} 
                                     minimumDate={new Date(1940, 0, 1)}
                                 />
                             )}
@@ -225,6 +273,8 @@ export default function Cadastro({ navigation }) {
                                 style={styles.campos}
                                 placeholder="Nome Comercial"
                                 placeholderTextColor="#282828"
+                                value={nomeComercial}
+                                onChangeText={setNomeComercial}
                             />
                             <View style={styles.inputSenha}>
                                 <TextInput 
@@ -232,6 +282,8 @@ export default function Cadastro({ navigation }) {
                                     placeholder="Senha"
                                     placeholderTextColor="#282828"
                                     secureTextEntry={viewPass}
+                                    value={senha}
+                                    onChangeText={setSenha}
                                 />
                                 <Pressable onPress={togglePasswordVisibility} style={styles.iconeOlho}> 
                                     {viewPass ? 
@@ -245,6 +297,8 @@ export default function Cadastro({ navigation }) {
                                     placeholder="Confirmar Senha"
                                     placeholderTextColor="#282828"
                                     secureTextEntry={viewConfirmPass}
+                                    value={confirmarSenha}
+                                    onChangeText={setConfirmarSenha}
                                 />
                                 <Pressable onPress={toggleConfirmPasswordVisibility} style={styles.iconeOlho}> 
                                     {viewConfirmPass ? 
@@ -257,31 +311,41 @@ export default function Cadastro({ navigation }) {
                                 placeholder="CEP"
                                 placeholderTextColor="#282828"
                                 keyboardType="numeric"
+                                value={cep}
+                                onChangeText={setCep}
                             />
                             <TextInput 
                                 style={styles.campos}
                                 placeholder="Bairro"
                                 placeholderTextColor="#282828"
+                                value={bairro}
+                                onChangeText={setBairro}
                             />
                             <TextInput 
                                 style={styles.campos}
                                 placeholder="Endereço"
                                 placeholderTextColor="#282828"
+                                value={endereco}
+                                onChangeText={setEndereco}
                             />
                             <TextInput 
                                 style={styles.campos}
                                 placeholder="Nº Residencial"
                                 placeholderTextColor="#282828"
                                 keyboardType="numeric"
+                                value={numResidencial}
+                                onChangeText={setNumResidencial}
                             />
                             <TextInput 
                                 style={styles.campos}
                                 placeholder="Complemento"
                                 placeholderTextColor="#282828"
+                                value={complementoResi}
+                                onChangeText={setComplementoResi}
                             />
                         </View>
 
-                        <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('ConfirPrestador')}>
+                        <TouchableOpacity style={styles.botao} onPress={Cadastro}>
                             <Text style={styles.botaoTexto}>Cadastrar</Text>
                         </TouchableOpacity>
 
@@ -289,7 +353,6 @@ export default function Cadastro({ navigation }) {
                             Já possui conta? <Text style={styles.cadastroLink} onPress={() => navigation.navigate('EntrarLoginPrestador')}>Entrar</Text>
                         </Text>
                     </View>
-
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
