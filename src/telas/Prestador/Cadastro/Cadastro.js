@@ -7,21 +7,27 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import axios from 'axios';
 
 const data = [
-    { label: 'Moda e Beleza', value: '1' },
-    { label: 'Serviços Domésticos', value: '2' },
-    { label: 'Assistência Técnica', value: '3' },
-    { label: 'Aulas', value: '4' },
-    { label: 'Reformas e Reparos', value: '5' },
-    { label: 'Consultoria', value: '6' },
-    { label: 'Transporte', value: '7' },
-    { label: 'Design e Tecnologia', value: '8' },
-    { label: 'Eventos', value: '9' },
-    { label: 'Saúde', value: '10' },
+    { label: 'Moda e Beleza', value: 'Moda e Beleza' },
+    { label: 'Serviços Domésticos', value: 'Serviços Domésticos' },
+    { label: 'Assistência Técnica', value: 'Assistência Técnica' },
+    { label: 'Aulas', value: 'Aulas' },
+    { label: 'Reformas e Reparos', value: 'Reformas e Reparos' },
+    { label: 'Consultoria', value: 'Consultoria' },
+    { label: 'Transporte', value: 'Transporte' },
+    { label: 'Design e Tecnologia', value: 'Design e Tecnologia' },
+    { label: 'Eventos', value: 'Eventos' },
+    { label: 'Saúde', value: 'Saúde' },
 ];
 
 const perfil = [
     { label: 'Microempreendedor Individual', value: 'MICROEMPREENDEDOR' },
     { label: 'Autônomo', value: 'AUTONOMO' }
+];
+
+const generoOpcao = [
+    { label: 'Feminino', value: 'Feminino' },
+    { label: 'Masculino', value: 'Masculino' },
+    { label: 'Prefiro não declarar', value: 'Prefiro não declarar' },
 ];
 
 export default function Cadastro({ navigation }) {
@@ -41,6 +47,9 @@ export default function Cadastro({ navigation }) {
     const [endereco, setEndereco] = useState('');
     const [numResidencial, setNumResidencial] = useState('');
     const [complementoResi, setComplementoResi] = useState('');
+    const [cidade,setCidade] = useState('');
+    const [genero,setGenero] = useState('');
+    const [estado,setEstado] = useState('');
     
     const [categoriaValue, setCategoriaValue] = useState(null);
     const [categoriaFocus, setCategoriaFocus] = useState(false);
@@ -48,6 +57,10 @@ export default function Cadastro({ navigation }) {
     const [perfilFocus, setPerfilFocus] = useState(false);
     const [showDatePicker, setShowDatePicker] = useState(false);
 
+    const [generoFocus, setGeneroFocus] = useState(false);
+
+
+    
     const onChangeDate = (event, selectedDate) => {
         setShowDatePicker(false);
         if (event.type === 'set' && selectedDate) {
@@ -79,7 +92,11 @@ export default function Cadastro({ navigation }) {
             complementoResi,
             categoriaServico: categoriaValue, 
             nomeComercial,
-            tipoPrestador: perfilValue,  
+            tipoPrestador: perfilValue, 
+            cidade,
+            estado, 
+            genero
+ 
         };
     
         if (perfilValue === 'AUTONOMO') {
@@ -97,6 +114,7 @@ export default function Cadastro({ navigation }) {
                 },
             });
             console.log('Cadastro realizado com sucesso:', response.data);
+            navigation.navigate('ConfirPrestador');
         } catch (error) {
             console.error('Erro ao cadastrar:', error.message);
             alert('Erro ao cadastrar: ' + (error.response?.data?.message || error.message));
@@ -119,6 +137,16 @@ export default function Cadastro({ navigation }) {
             return (
                 <Text style={[styles.label, { top: -10, left: 15, fontSize: 12, color: perfilFocus ? 'blue' : '#4E40A2' }]}>
                     Perfil
+                </Text>
+            );
+        }
+        return null;
+    };
+    const renderLabelGenero = () => {
+        if (genero || generoFocus) {
+            return (
+                <Text style={[styles.label, { top: -10, left: 15, fontSize: 12, color: generoFocus ? 'blue' : '#4E40A2' }]}>
+                    Gênero
                 </Text>
             );
         }
@@ -190,6 +218,37 @@ export default function Cadastro({ navigation }) {
                                 />
                             )}
 
+                            <View style={styles.dropdownContainer}>
+                                    {renderLabelGenero()}
+                                    <Dropdown
+                                        style={[styles.dropdown, generoFocus && { borderColor: 'blue' }]}
+                                        placeholderStyle={styles.placeholderStyle}
+                                        selectedTextStyle={styles.selectedTextStyle}
+                                        inputSearchStyle={styles.inputSearchStyle}
+                                        iconStyle={styles.iconStyle}
+                                        data={generoOpcao}
+                                        search={false}
+                                        maxHeight={300}
+                                        labelField="label"
+                                        valueField="value"
+                                        placeholder={!generoFocus ? 'Selecione um gênero' : '...'}
+                                        value={genero}
+                                        onFocus={() => setGeneroFocus(true)}
+                                        onBlur={() => setGeneroFocus(false)}
+                                        onChange={item => {
+                                            setGenero(item.value);
+                                            setGeneroFocus(false);
+                                        }}
+                                        renderLeftIcon={() => (
+                                            <AntDesign
+                                                style={styles.icon}
+                                                color={generoFocus ? '#4E40A2' : '#8A8A8A'}
+                                                name="Safety"
+                                                size={20}
+                                            />
+                                        )}
+                                    />
+                            </View>
                             <View style={styles.dropdownContainer}>
                                 {renderLabelCategoria()}
                                 <Dropdown
@@ -282,6 +341,59 @@ export default function Cadastro({ navigation }) {
                                 value={nomeComercial}
                                 onChangeText={setNomeComercial}
                             />
+                            
+                            <TextInput
+                                style={styles.campos}
+                                placeholder="CEP"
+                                placeholderTextColor="#282828"
+                                keyboardType="numeric"
+                                value={cep}
+                                onChangeText={setCep}
+                            />
+                            <TextInput
+                                style={styles.campos}
+                                placeholder="Cidade"
+                                placeholderTextColor="#282828"
+                                value={cidade}
+                                onChangeText={setCidade}
+                            />
+                            <TextInput
+                                style={styles.campos}
+                                placeholder="Estado"
+                                placeholderTextColor="#282828"
+                                value={estado}
+                                onChangeText={setEstado}
+                            />
+    
+                            <TextInput
+                                style={styles.campos}
+                                placeholder="Bairro"
+                                placeholderTextColor="#282828"
+                                value={bairro}
+                                onChangeText={setBairro}
+                            />
+                            <TextInput
+                                style={styles.campos}
+                                placeholder="Endereço"
+                                placeholderTextColor="#282828"
+                                value={endereco}
+                                onChangeText={setEndereco}
+                            />
+                            <TextInput
+                                style={styles.campos}
+                                placeholder="Nº Residencial"
+                                placeholderTextColor="#282828"
+                                keyboardType="numeric"
+                                value={numResidencial}
+                                onChangeText={setNumResidencial}
+                            />
+                            <TextInput
+                                style={styles.campos}
+                                placeholder="Complemento"
+                                placeholderTextColor="#282828"
+                                value={complementoResi}
+                                onChangeText={setComplementoResi}
+                            />
                             <View style={styles.inputSenha}>
                                 <TextInput
                                     style={styles.camposSenha}
@@ -316,45 +428,8 @@ export default function Cadastro({ navigation }) {
                                     )}
                                 </Pressable>
                             </View>
-                            <TextInput
-                                style={styles.campos}
-                                placeholder="CEP"
-                                placeholderTextColor="#282828"
-                                keyboardType="numeric"
-                                value={cep}
-                                onChangeText={setCep}
-                            />
-                            <TextInput
-                                style={styles.campos}
-                                placeholder="Bairro"
-                                placeholderTextColor="#282828"
-                                value={bairro}
-                                onChangeText={setBairro}
-                            />
-                            <TextInput
-                                style={styles.campos}
-                                placeholder="Endereço"
-                                placeholderTextColor="#282828"
-                                value={endereco}
-                                onChangeText={setEndereco}
-                            />
-                            <TextInput
-                                style={styles.campos}
-                                placeholder="Nº Residencial"
-                                placeholderTextColor="#282828"
-                                keyboardType="numeric"
-                                value={numResidencial}
-                                onChangeText={setNumResidencial}
-                            />
-                            <TextInput
-                                style={styles.campos}
-                                placeholder="Complemento"
-                                placeholderTextColor="#282828"
-                                value={complementoResi}
-                                onChangeText={setComplementoResi}
-                            />
                         </View>
-
+                        
                         <TouchableOpacity style={styles.botao} onPress={handleSubmit}>
                             <Text style={styles.botaoTexto}>Cadastrar</Text>
                         </TouchableOpacity>

@@ -2,8 +2,16 @@ import React, { useState } from "react";
 import { Text, StyleSheet, View, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, Pressable } from "react-native";
 import Icones from 'react-native-vector-icons/Feather';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { Dropdown } from 'react-native-element-dropdown';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import axios from 'axios';
 
 
+const generoOpcao = [
+    { label: 'Feminino', value: 'Feminino' },
+    { label: 'Masculino', value: 'Masculino' },
+    { label: 'Prefiro não declarar', value: 'Prefiro não declarar' },
+];
 
 export default function CadastroClie({ navigation }) {
     const [viewPass, setViewPass] = useState(true);
@@ -22,6 +30,24 @@ export default function CadastroClie({ navigation }) {
     const [dataNascimento, setDataNascimento] = useState('');
     const [showDatePicker, setShowDatePicker] = useState(false);
 
+
+    const [nome, setNome] = useState('');
+    const [sobrenome, setSobrenome] = useState('');
+    const [email, setEmail] = useState('');
+    const [telefone, setTelefone] = useState('');
+    const [cpf, setCpf] = useState('');
+    const [senha, setSenha] = useState('');
+    const [confirmarSenha, setConfirmarSenha] = useState('');
+    const [cep, setCep] = useState('');
+    const [bairro, setBairro] = useState('');
+    const [endereco, setEndereco] = useState('');
+    const [numResidencial, setNumResidencial] = useState('');
+    const [complementoResi, setComplementoResi] = useState('');
+    const [cidade,setCidade] = useState('');
+    const [genero,setGenero] = useState('');
+    const [estado,setEstado] = useState('');
+    const [generoFocus, setGeneroFocus] = useState(false);
+
     const onChangeDate = (event, selectedDate) => {
         setShowDatePicker(false);  
         if (event.type === 'set' && selectedDate) {  
@@ -29,7 +55,53 @@ export default function CadastroClie({ navigation }) {
         }
     };
 
+    const renderLabelGenero = () => {
+        if (genero || generoFocus) {
+            return (
+                <Text style={[styles.label, { top: -10, left: 15, fontSize: 12, color: generoFocus ? 'blue' : '#4E40A2' }]}>
+                    Gênero
+                </Text>
+            );
+        }
+        return null;
+    };
 
+    const handleSubmit = async () => {
+        let userData = {
+            nome,
+            sobrenome,
+            email,
+            telefone,
+            dataNascimento,
+            senha,
+            cep: cep.replace(/\D/g, ''), 
+            bairro,
+            endereco,
+            numResidencial: Number(numResidencial),
+            complementoResi,
+            cidade,
+            estado, 
+            genero
+ 
+        };
+
+    
+        console.log('Dados que serão enviados:', JSON.stringify(userData, null, 2));
+    
+        try {
+            const response = await axios.post('http://192.168.0.7:8080/usuarios/cliente', userData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            console.log('Cadastro realizado com sucesso:', response.data);
+            navigation.navigate('ConfiClie');
+        } catch (error) {
+            console.error('Erro ao cadastrar:', error.message);
+            alert('Erro ao cadastrar: ' + (error.response?.data?.message || error.message));
+        }
+    };
+    
     return (
         <KeyboardAvoidingView
             style={{ flex: 1 }}
@@ -53,29 +125,71 @@ export default function CadastroClie({ navigation }) {
                                 style={styles.campos}
                                 placeholder="Nome"
                                 placeholderTextColor="#282828"
+                                value={nome}
+                                onChangeText={setNome}
                             />
                             <TextInput 
                                 style={styles.campos}
                                 placeholder="Sobrenome"
                                 placeholderTextColor="#282828"
+                                value={sobrenome}
+                                onChangeText={setSobrenome}
                             />
                             <TextInput 
                                 style={styles.campos}
                                 placeholder="E-mail"
                                 placeholderTextColor="#282828"
+                                value={email}
+                                onChangeText={setEmail}
                             />
                              <TextInput 
-                                style={styles.campos}
-                                placeholder="CPF"
-                                placeholderTextColor="#282828"
-                                keyboardType="numeric"
-                            />
-                            <TextInput 
                                 style={styles.campos}
                                 placeholder="Telefone"
                                 placeholderTextColor="#282828"
                                 keyboardType="numeric"
+                                value={telefone}
+                                onChangeText={setTelefone}
                             />
+                            <View style={styles.dropdownContainer}>
+                                    {renderLabelGenero()}
+                                    <Dropdown
+                                        style={[styles.dropdown, generoFocus && { borderColor: 'blue' }]}
+                                        placeholderStyle={styles.placeholderStyle}
+                                        selectedTextStyle={styles.selectedTextStyle}
+                                        inputSearchStyle={styles.inputSearchStyle}
+                                        iconStyle={styles.iconStyle}
+                                        data={generoOpcao}
+                                        search={false}
+                                        maxHeight={300}
+                                        labelField="label"
+                                        valueField="value"
+                                        placeholder={!generoFocus ? 'Selecione um gênero' : '...'}
+                                        value={genero}
+                                        onFocus={() => setGeneroFocus(true)}
+                                        onBlur={() => setGeneroFocus(false)}
+                                        onChange={item => {
+                                            setGenero(item.value);
+                                            setGeneroFocus(false);
+                                        }}
+                                        renderLeftIcon={() => (
+                                            <AntDesign
+                                                style={styles.icon}
+                                                color={generoFocus ? '#4E40A2' : '#8A8A8A'}
+                                                name="Safety"
+                                                size={20}
+                                            />
+                                        )}
+                                    />
+                            </View>
+                            <TextInput 
+                                style={styles.campos}
+                                placeholder="CPF"
+                                placeholderTextColor="#282828"
+                                keyboardType="numeric"
+                                value={cpf}
+                                onChangeText={setCpf}
+                            />
+                           
                             <TouchableOpacity 
                                 style={[styles.campos, styles.dataNascimento]}  
                                 onPress={() => setShowDatePicker(true)}
@@ -100,34 +214,61 @@ export default function CadastroClie({ navigation }) {
                                 placeholder="CEP"
                                 placeholderTextColor="#282828"
                                 keyboardType="numeric"
+                                value={cep}
+                                onChangeText={setCep}
+                            />
+                             <TextInput
+                                style={styles.campos}
+                                placeholder="Cidade"
+                                placeholderTextColor="#282828"
+                                value={cidade}
+                                onChangeText={setCidade}
+                            />
+                            <TextInput
+                                style={styles.campos}
+                                placeholder="Estado"
+                                placeholderTextColor="#282828"
+                                value={estado}
+                                onChangeText={setEstado}
                             />
                             <TextInput 
                                 style={styles.campos}
                                 placeholder="Bairro"
                                 placeholderTextColor="#282828"
+                                value={bairro}
+                                onChangeText={setBairro}
                             />
                             <TextInput 
                                 style={styles.campos}
                                 placeholder="Endereço"
                                 placeholderTextColor="#282828"
+                                value={endereco}
+                                onChangeText={setEndereco}
                             />
                             <TextInput 
                                 style={styles.campos}
                                 placeholder="Nº Residencial"
                                 placeholderTextColor="#282828"
                                 keyboardType="numeric"
+                                value={numResidencial}
+                                onChangeText={setNumResidencial}
                             />
                             <TextInput 
                                 style={styles.campos}
                                 placeholder="Complemento"
                                 placeholderTextColor="#282828"
+                                value={complementoResi}
+                                onChangeText={setComplementoResi}
                             />
+
                             <View style={styles.inputSenha}>
                                 <TextInput 
                                     style={styles.camposSenha}
                                     placeholder="Senha"
                                     placeholderTextColor="#282828"
                                     secureTextEntry={viewPass}
+                                    value={senha}
+                                onChangeText={setSenha}
                                 />
                                 <Pressable onPress={togglePasswordVisibility} style={styles.iconeOlho}> 
                                     {viewPass ? 
@@ -141,6 +282,8 @@ export default function CadastroClie({ navigation }) {
                                     placeholder="Confirmar Senha"
                                     placeholderTextColor="#282828"
                                     secureTextEntry={viewConfirmPass}
+                                    value={confirmarSenha}
+                                    onChangeText={setConfirmarSenha}
                                 />
                                 <Pressable onPress={toggleConfirmPasswordVisibility} style={styles.iconeOlho}> 
                                     {viewConfirmPass ? 
@@ -148,7 +291,7 @@ export default function CadastroClie({ navigation }) {
                                         (<Icones name="eye" size={25} color="#282828" />)}
                                 </Pressable>
                             </View>
-                            <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('ConfiClie')}>
+                            <TouchableOpacity style={styles.botao} onPress={handleSubmit}>
                             <Text style={styles.botaoTexto}>Cadastrar</Text>
                         </TouchableOpacity>
 
@@ -272,5 +415,29 @@ const styles = StyleSheet.create({
         fontSize: 15,             
         color: '#282828',      
         textAlign: 'left',         
-    }
+    },
+    dropdownContainer: {
+        marginBottom: 10,
+        position: 'relative',
+    },
+    dropdown: {
+        height: 49, 
+        borderColor: '#F5F5F5',
+        borderWidth: 0.5,
+        borderRadius: 8,
+        backgroundColor: '#F5F5F5',
+        paddingHorizontal: 15,
+    },
+    icon: {
+        marginRight: 5,
+    },
+    label: {
+        position: 'absolute',
+        backgroundColor: '#FFFFFF',
+        left: 20,
+        top: 15,
+        zIndex: 999,
+        paddingHorizontal: 8,
+        fontSize: 15,
+    },
 });
