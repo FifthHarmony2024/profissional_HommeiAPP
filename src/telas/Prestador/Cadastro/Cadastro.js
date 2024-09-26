@@ -16,8 +16,7 @@ const data = [
     { label: 'Transporte', value: '7' },
     { label: 'Design e Tecnologia', value: '8' },
     { label: 'Eventos', value: '9' },
-    { label: 'Autos', value: '10' },
-    { label: 'Saúde', value: '11' },
+    { label: 'Saúde', value: '10' },
 ];
 
 const perfil = [
@@ -66,48 +65,44 @@ export default function Cadastro({ navigation }) {
     };
 
     const handleSubmit = async () => {
-        const userData = {
+        let userData = {
             nome,
             sobrenome,
             email,
             telefone,
             dataNascimento,
-            documento,
-            tipoPrestador: perfilValue,
-            nomeComercial,
             senha,
-            cep: cep.replace(/\D/g, ''),
+            cep: cep.replace(/\D/g, ''), 
             bairro,
             endereco,
             numResidencial: Number(numResidencial),
             complementoResi,
-            categoriaValue,
+            categoriaServico: categoriaValue, 
+            nomeComercial,
+            tipoPrestador: perfilValue,  
         };
     
-        console.log('Dados que seriam enviados:', userData);
+        if (perfilValue === 'AUTONOMO') {
+            userData.cpf = documento.replace(/\D/g, ''); 
+        } else if (perfilValue === 'MICROEMPREENDEDOR') {
+            userData.cnpj = documento.replace(/\D/g, ''); 
+        }
+    
+        console.log('Dados que serão enviados:', JSON.stringify(userData, null, 2));
     
         try {
             const response = await axios.post('http://192.168.0.7:8080/usuarios/prestador', userData, {
                 headers: {
                     'Content-Type': 'application/json',
-                }
+                },
             });
             console.log('Cadastro realizado com sucesso:', response.data);
         } catch (error) {
-            if (error.response) {
-                console.error('Erro ao cadastrar:', error.response.data);
-                alert('Erro ao cadastrar: ' + (error.response.data.message || 'Erro desconhecido.'));
-            } else if (error.request) {
-                console.error('Erro ao cadastrar: sem resposta do servidor', error.request);
-                alert('Erro ao cadastrar: sem resposta do servidor.');
-            } else {
-                console.error('Erro ao cadastrar:', error.message);
-                alert('Erro ao cadastrar: ' + error.message);
-            }
+            console.error('Erro ao cadastrar:', error.message);
+            alert('Erro ao cadastrar: ' + (error.response?.data?.message || error.message));
         }
     };
     
-
     const renderLabelCategoria = () => {
         if (categoriaValue || categoriaFocus) {
             return (
