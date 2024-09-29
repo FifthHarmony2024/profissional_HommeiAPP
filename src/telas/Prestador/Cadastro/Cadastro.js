@@ -1,10 +1,13 @@
-import React, { useState } from "react";
-import { Text, StyleSheet, View, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, Pressable } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Text, View, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, Pressable } from "react-native";
 import Icones from 'react-native-vector-icons/Feather';
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import axios from 'axios';
+import { buscarEstados, buscarCidades, buscarTodasCidades} from '../../../Validacoes/apiIBGE'; 
+import styles from "../../EstiloPrestador/estilos";
+
 
 const data = [
     { label: 'Moda e Beleza', value: 'Moda e Beleza' },
@@ -47,10 +50,17 @@ export default function Cadastro({ navigation }) {
     const [endereco, setEndereco] = useState('');
     const [numResidencial, setNumResidencial] = useState('');
     const [complementoResi, setComplementoResi] = useState('');
-    const [cidade,setCidade] = useState('');
     const [genero,setGenero] = useState('');
-    const [estado,setEstado] = useState('');
+
     
+    const [estados, setEstados] = useState([]);
+    const [cidades, setCidades] = useState([]);
+    const [estadoValue, setEstadoValue] = useState(null);
+    const [cidadeValue, setCidadeValue] = useState(null);
+    const [estadoFocus, setEstadoFocus] = useState(false);
+    const [cidadeFocus, setCidadeFocus] = useState(false);
+
+
     const [categoriaValue, setCategoriaValue] = useState(null);
     const [categoriaFocus, setCategoriaFocus] = useState(false);
     const [perfilValue, setPerfilValue] = useState(null);
@@ -58,7 +68,6 @@ export default function Cadastro({ navigation }) {
     const [showDatePicker, setShowDatePicker] = useState(false);
 
     const [generoFocus, setGeneroFocus] = useState(false);
-
 
     
     const onChangeDate = (event, selectedDate) => {
@@ -93,10 +102,9 @@ export default function Cadastro({ navigation }) {
             categoriaServico: categoriaValue, 
             nomeComercial,
             tipoPrestador: perfilValue, 
-            cidade,
-            estado, 
+            cidade: cidadeValue,
+            estado: estadoValue, 
             genero
- 
         };
     
         if (perfilValue === 'AUTONOMO') {
@@ -108,7 +116,7 @@ export default function Cadastro({ navigation }) {
         console.log('Dados que serão enviados:', JSON.stringify(userData, null, 2));
     
         try {
-            const response = await axios.post('http://192.168.0.7:8080/usuarios/prestador', userData, {
+            const response = await axios.post('http://192.168.0.5:8080/usuarios/prestador', userData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -153,6 +161,61 @@ export default function Cadastro({ navigation }) {
         return null;
     };
 
+    const renderLabelEstado = () => {
+        if (estadoValue || estadoFocus) {
+            return (
+                <Text style={[styles.label, { top: -10, left: 15, fontSize: 12, color: estadoFocus ? 'blue' : '#4E40A2' }]}>
+                    Estado
+                </Text>
+            );
+        }
+        return null;
+    };
+
+    const renderLabelCidade = () => {
+        if (cidadeValue || cidadeFocus) {
+            return (
+                <Text style={[styles.label, { top: -10, left: 15, fontSize: 12, color: cidadeFocus ? 'blue' : '#4E40A2' }]}>
+                    Cidade
+                </Text>
+            );
+        }
+        return null;
+    };
+
+    useEffect(() => {
+        const carregarEstados = async () => {
+        try {
+            const dadosEstados = await buscarEstados(); 
+            setEstados(dadosEstados); 
+        } catch (error) {
+            console.error('Erro ao carregar estados:', error);
+        }
+        };
+        carregarEstados();
+    }, []);
+
+    useEffect(() => {
+        const carregarCidades = async () => {
+        if (estadoValue) {
+            try {
+            const dadosCidades = await buscarCidades(estadoValue);
+            setCidades(dadosCidades); 
+            } catch (error) {
+            console.error('Erro ao carregar cidades do estado:', error);
+            }
+        } else {
+            try {
+            const dadosTodasCidades = await buscarTodasCidades();
+            setCidades(dadosTodasCidades);
+            } catch (error) {
+            console.error('Erro ao carregar todas as cidades:', error);
+            }
+        }
+        };
+        carregarCidades();
+    }, [estadoValue]); 
+    
     return (
         <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} bounces={false}>
@@ -350,21 +413,70 @@ export default function Cadastro({ navigation }) {
                                 value={cep}
                                 onChangeText={setCep}
                             />
-                            <TextInput
-                                style={styles.campos}
-                                placeholder="Cidade"
-                                placeholderTextColor="#282828"
-                                value={cidade}
-                                onChangeText={setCidade}
-                            />
-                            <TextInput
-                                style={styles.campos}
-                                placeholder="Estado"
-                                placeholderTextColor="#282828"
-                                value={estado}
-                                onChangeText={setEstado}
-                            />
-    
+                            <View style={styles.dropdownContainer}>
+                                {renderLabelEstado()}
+                                <Dropdown
+                                    style={[styles.dropdown, estadoFocus && { borderColor: 'blue' }]}
+                                    placeholderStyle={styles.placeholderStyle}
+                                    selectedTextStyle={styles.selectedTextStyle}
+                                    inputSearchStyle={styles.inputSearchStyle}
+                                    iconStyle={styles.iconStyle}
+                                    data={estados}
+                                    labelField="label"
+                                    valueField="value"
+                                    search
+                                    maxHeight={300}
+                                    placeholder={!estadoFocus ? 'Selecione um estado' : '...'}
+                                    searchPlaceholder="Pesquisar..."
+                                    value={estadoValue}
+                                    onFocus={() => setEstadoFocus(true)}
+                                    onBlur={() => setEstadoFocus(false)}
+                                    onChange={item => {
+                                        setEstadoValue(item.value);
+                                        setCidadeValue(null); 
+                                        setCidades([]); 
+                                    }}
+                                    renderLeftIcon={() => (
+                                        <AntDesign
+                                            style={styles.icon}
+                                            color={estadoFocus ? '#4E40A2' : '#8A8A8A'}
+                                            name="Safety"
+                                            size={20}
+                                        />
+                                    )}
+                                />
+                            </View>
+                            <View style={styles.dropdownContainer}>
+                                {renderLabelCidade()}
+                                <Dropdown
+                                    style={[styles.dropdown, cidadeFocus && { borderColor: 'blue' }]}
+                                    placeholderStyle={styles.placeholderStyle}
+                                    selectedTextStyle={styles.selectedTextStyle}
+                                    inputSearchStyle={styles.inputSearchStyle}
+                                    iconStyle={styles.iconStyle}
+                                    search
+                                    maxHeight={300}
+                                    placeholder={!cidadeFocus ? 'Selecione uma cidade' : '...'}
+                                    searchPlaceholder="Pesquisar..."
+                                    data={cidades}
+                                    labelField="label"
+                                    valueField="value"
+                                    value={cidadeValue}
+                                    onFocus={() => setCidadeFocus(true)}
+                                    onBlur={() => setCidadeFocus(false)}
+                                    onChange={item => {
+                                        setCidadeValue(item.value);
+                                    }}
+                                    renderLeftIcon={() => (
+                                        <AntDesign
+                                            style={styles.icon}
+                                            color={cidadeFocus ? '#4E40A2' : '#8A8A8A'}
+                                            name="Safety"
+                                            size={20}
+                                        />
+                                    )}
+                                />
+                            </View>
                             <TextInput
                                 style={styles.campos}
                                 placeholder="Bairro"
@@ -443,152 +555,3 @@ export default function Cadastro({ navigation }) {
         </KeyboardAvoidingView>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#4E40A2',
-        position: 'relative', 
-    },
-    fundoRoxo: {
-        width: '100%',
-        borderBottomLeftRadius: 0,
-        borderBottomRightRadius: 0,
-        alignItems: 'center',
-        paddingVertical: 50,
-        paddingHorizontal: 20,
-        position: 'relative',
-    },
-    titulo: {
-        fontSize: 30,
-        color: '#FFFFFF',
-        marginBottom: 50, 
-        marginTop: 30,
-        marginRight:85
-    },
-    inputContainer: {
-        width: '90%',
-        marginBottom: 20,
-    },
-    campos: {
-        backgroundColor: '#F5F5F5',
-        borderRadius: 8, 
-        height: 49, 
-        marginBottom: 10, 
-        paddingHorizontal: 15,  
-        fontSize: 15, 
-        color: '#000000',
-        borderWidth: 0,
-    },
-    camposSenha: {
-        flex: 1,
-        backgroundColor: '#F5F5F5',
-        borderRadius: 8,
-        height: 49, 
-        paddingHorizontal: 15,  
-        fontSize: 15,
-        color: '#000000',
-        borderWidth: 0,
-    },
-    inputSenha: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: '#F5F5F5',
-        borderRadius: 8,
-        height: 49, 
-        marginBottom: 10,
-    },
-    botao: {
-        backgroundColor: '#FE914E',
-        borderRadius: 10, 
-        width: '90%',
-        height: 50,
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 20,
-    },
-    botaoTexto: {
-        fontSize: 18,
-        color: '#FFFFFF',
-        fontWeight: 'bold',
-    },
-    cadastroTexto: {
-        color: '#FFFFFF',
-        marginTop: 18,
-        textAlign: 'center',
-    },
-    cadastroLink: {
-        color: '#FE914E',
-        fontWeight: 'bold',
-    },
-    seta: {
-        position: 'absolute',
-        top: 84, 
-        left: 20,
-    },
-    iconeOlho: {
-        paddingHorizontal: 10,
-        paddingRight: 20,
-        justifyContent: 'center',
-        height: '100%',
-    },
-    dropdownContainer: {
-        marginBottom: 10,
-        position: 'relative',
-    },
-    dropdown: {
-        height: 49, 
-        borderColor: '#F5F5F5',
-        borderWidth: 0.5,
-        borderRadius: 8,
-        backgroundColor: '#F5F5F5',
-        paddingHorizontal: 15,
-    },
-    icon: {
-        marginRight: 5,
-    },
-    label: {
-        position: 'absolute',
-        backgroundColor: '#FFFFFF',
-        left: 20,
-        top: 15,
-        zIndex: 999,
-        paddingHorizontal: 8,
-        fontSize: 15,
-    },
-    placeholderStyle: {
-        fontSize: 15,
-        color: '#282828', 
-    },
-    selectedTextStyle: {
-        fontSize: 15,
-    },
-    iconStyle: {
-        width: 20,
-        height: 20,
-    },
-    inputSearchStyle: {
-        height: 40,
-        fontSize: 15,
-    },
-    circleBackground: {
-        position: 'absolute',
-        width: 350,
-        height: 90,
-        borderRadius: 150,
-        backgroundColor: '#5A4ABA', 
-        top: 55,
-        left: -40, 
-    },
-    dataNascimento: {
-        justifyContent: 'center',  
-    },
-    textoDataNascimento: {
-        fontSize: 15,             
-        color: '#282828',      
-        textAlign: 'left',         
-    }
-    
-});
