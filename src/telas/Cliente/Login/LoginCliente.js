@@ -19,9 +19,17 @@ export default function LoginCliente({ navigation }) {
 
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} bounces={false}>
                 <View style={styles.container}>
+                 <View style={styles.circleBackground} />
                     <View style={styles.fundoLaran}>
+                    <Icones 
+                            style={styles.seta} 
+                            name="chevron-left" 
+                            size={40} 
+                            color='#ffffff'  
+                            onPress={() => navigation.goBack('Perfil')} 
+                        />
                         <Text style={styles.titulo}>Login</Text>
-                        
+
                         <View style={styles.inputContainer}>
                             <View style={styles.visualizar}>
                                 <Icone name="email-outline" size={20} color="#8A8A8A" style={styles.iconeEmail} />
@@ -51,7 +59,7 @@ export default function LoginCliente({ navigation }) {
                         <Text style={styles.linkTexto}>Esqueci minha senha</Text>
 
                         <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('')}>
-                            <Text style={styles.botaoTexto}>Entrar</Text>
+                            <Text style={styles.botaoTexto} onPress={() => navigation.navigate('TevlaSer')}>Entrar</Text>
                         </TouchableOpacity>
                         
                     </View>
@@ -83,6 +91,13 @@ const styles = StyleSheet.create({
         top: 0,
     },
     titulo: {
+        fontSize: 30,
+        color: '#FFFFFF',
+        marginBottom: 50,
+        marginTop: -65,
+    },
+    seta:{
+        width: 350,
         fontSize: 30,
         color: '#FFFFFF',
         marginBottom: 30,

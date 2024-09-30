@@ -19,8 +19,16 @@ export default function Login({ navigation }) {
 
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} bounces={false}>
                 <View style={styles.container}>
-                    <View style={styles.fundoRoxo}>
-                        <Text style={styles.titulo}>Login</Text>
+                 <View style={styles.fundoRoxo}>
+                    <View style={styles.circleBackground} />
+                    <Icones 
+                            style={styles.seta2} 
+                            name="chevron-left" 
+                            size={40} 
+                            color='#ffffff'  
+                            onPress={() => navigation.goBack('Perfil')} 
+                        />
+                        <Text style={styles.titulo}>Login Prestador</Text>
                         
                         <View style={styles.inputContainer}>
                             <View style={styles.visualizar}>
@@ -83,6 +91,13 @@ const styles = StyleSheet.create({
         top: 0,
     },
     titulo: {
+        fontSize: 30,
+        color: '#FFFFFF',
+        marginBottom: 50,
+        marginTop: -65,
+    },
+    seta2:{
+        width: 350,
         fontSize: 30,
         color: '#FFFFFF',
         marginBottom: 30,

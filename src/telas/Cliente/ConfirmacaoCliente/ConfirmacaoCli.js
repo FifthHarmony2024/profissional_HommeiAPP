@@ -23,8 +23,8 @@ export default function ConfirmacaoCli({ navigation }) {
         <KeyboardAvoidingView
             style={{ flex: 1 }}
             behavior={Platform.OS === "ios" ? "position" : "none"} 
-            keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0} 
-        >
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}>
+
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} bounces={false}>
                 <View style={styles.container}>
                     <View style={styles.fundo}>
@@ -41,9 +41,9 @@ export default function ConfirmacaoCli({ navigation }) {
                             <View style={styles.circulo}>
                                 <AntDesign name="check" size={20} color="#FFF" />
                             </View>
-                            <View style={styles.linha} />
-                            <View style={styles.circuloAtivo}>
-                                <View style={styles.circuloInterno} />
+                             <View style={styles.linha} />
+                             <View style={styles.circuloAtivo}>
+                             <View style={styles.circuloInterno} />
                             </View>
                             <View style={styles.linhaInativa} />
                             <View style={styles.circuloInativo} />

@@ -403,7 +403,7 @@ export default function CadastroClie({ navigation }) {
                                 </Pressable>
                             </View>
                             <TouchableOpacity style={styles.botao} onPress={handleSubmit}>
-                            <Text style={styles.botaoTexto}>Cadastrar</Text>
+                            <Text style={styles.botaoTexto} onPress={() => navigation.navigate('ConfiClie')}>Cadastrar</Text>
                         </TouchableOpacity>
 
                         <Text style={styles.cadastroTexto}>
