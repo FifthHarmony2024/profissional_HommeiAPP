@@ -1,7 +1,13 @@
 npm install @react-native-community/datetimepicker --save
 
 npm install @react-navigation/native
-npm install @react-navigation/drawer
-npm install react-native-gesture-handler react-native-reanimated
 
 npm install axios --para usar o front +back
+
+
+
+npm install react-native-gesture-handler react-native-reanimated
+npm install @react-navigation/drawer
+
+npm install react-native-reanimated@3.10.0
+

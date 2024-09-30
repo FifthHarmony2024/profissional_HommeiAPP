@@ -28,7 +28,7 @@ export default function Login({ navigation }) {
                             color='#ffffff'  
                             onPress={() => navigation.goBack('Perfil')} 
                         />
-                        <Text style={styles.titulo}>Login Prestador</Text>
+                        <Text style={styles.titulo}>Login</Text>
                         
                         <View style={styles.inputContainer}>
                             <View style={styles.visualizar}>
@@ -58,7 +58,7 @@ export default function Login({ navigation }) {
 
                         <Text style={styles.linkTexto}>Esqueci minha senha</Text>
 
-                        <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('Tela')}>
+                        <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('Drawer')}>
                             <Text style={styles.botaoTexto}>Entrar</Text>
                         </TouchableOpacity>
                         

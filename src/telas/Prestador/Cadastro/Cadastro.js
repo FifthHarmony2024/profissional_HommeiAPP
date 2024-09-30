@@ -44,7 +44,7 @@ export default function Cadastro({ navigation }) {
     const [documento, setDocumento] = useState('');
     const [nomeComercial, setNomeComercial] = useState('');
     const [senha, setSenha] = useState('');
-    const [confirmarSenha, setConfirmarSenha] = useState('');
+    const [confSenha, setConfSenha] = useState('');
     const [cep, setCep] = useState('');
     const [bairro, setBairro] = useState('');
     const [endereco, setEndereco] = useState('');
@@ -104,7 +104,8 @@ export default function Cadastro({ navigation }) {
             tipoPrestador: perfilValue, 
             cidade: cidadeValue,
             estado: estadoValue, 
-            genero
+            genero,
+            confSenha
         };
     
         if (perfilValue === 'AUTONOMO') {
@@ -529,8 +530,8 @@ export default function Cadastro({ navigation }) {
                                     placeholder="Confirmar Senha"
                                     placeholderTextColor="#282828"
                                     secureTextEntry={viewConfirmPass}
-                                    value={confirmarSenha}
-                                    onChangeText={setConfirmarSenha}
+                                    value={confSenha}
+                                    onChangeText={setConfSenha}
                                 />
                                 <Pressable onPress={toggleConfirmPasswordVisibility} style={styles.iconeOlho}>
                                     {viewConfirmPass ? (

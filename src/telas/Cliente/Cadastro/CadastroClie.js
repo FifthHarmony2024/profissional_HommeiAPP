@@ -39,7 +39,7 @@ export default function CadastroClie({ navigation }) {
     const [telefone, setTelefone] = useState('');
     const [cpf, setCpf] = useState('');
     const [senha, setSenha] = useState('');
-    const [confirmarSenha, setConfirmarSenha] = useState('');
+    const [confSenha, setConfSenha] = useState('');
     const [cep, setCep] = useState('');
     const [bairro, setBairro] = useState('');
     const [endereco, setEndereco] = useState('');
@@ -81,6 +81,7 @@ export default function CadastroClie({ navigation }) {
             telefone,
             dataNascimento,
             senha,
+            confSenha,
             cep: cep.replace(/\D/g, ''), 
             bairro,
             endereco,
@@ -96,7 +97,7 @@ export default function CadastroClie({ navigation }) {
         console.log('Dados que serão enviados:', JSON.stringify(userData, null, 2));
     
         try {
-            const response = await axios.post('http://192.168.0.7:8080/usuarios/cliente', userData, {
+            const response = await axios.post('http://192.168.0.5:8080/usuarios/cliente', userData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -104,8 +105,14 @@ export default function CadastroClie({ navigation }) {
             console.log('Cadastro realizado com sucesso:', response.data);
             navigation.navigate('ConfiClie');
         } catch (error) {
-            console.error('Erro ao cadastrar:', error.message);
-            alert('Erro ao cadastrar: ' + (error.response?.data?.message || error.message));
+            if (error.response && error.response.status === 409) {
+                alert('Erro de Conflito: ' + error.response.data); 
+            } else if (error.response && error.response.status === 400) {
+                alert('Erro de Validação: ' + error.response.data); 
+            } else {
+                console.error('Erro ao cadastrar:', error.message);
+                alert('Erro ao cadastrar: ' + error.message);
+            }
         }
     };
     const renderLabelEstado = () => {
@@ -393,8 +400,8 @@ export default function CadastroClie({ navigation }) {
                                     placeholder="Confirmar Senha"
                                     placeholderTextColor="#282828"
                                     secureTextEntry={viewConfirmPass}
-                                    value={confirmarSenha}
-                                    onChangeText={setConfirmarSenha}
+                                    value={confSenha}
+                                    onChangeText={setConfSenha}
                                 />
                                 <Pressable onPress={toggleConfirmPasswordVisibility} style={styles.iconeOlho}> 
                                     {viewConfirmPass ? 
