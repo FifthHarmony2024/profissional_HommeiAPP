@@ -117,7 +117,7 @@ export default function Cadastro({ navigation }) {
         console.log('Dados que serão enviados:', JSON.stringify(userData, null, 2));
     
         try {
-            const response = await axios.post('http://192.168.0.5:8080/usuarios/prestador', userData, {
+            const response = await axios.post('http://192.168.0.7:8080/usuarios/prestador', userData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

@@ -11,3 +11,4 @@ npm install @react-navigation/drawer
 
 npm install react-native-reanimated@3.10.0
 
+npm install react-native-image-picker

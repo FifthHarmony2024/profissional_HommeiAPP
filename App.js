@@ -17,6 +17,7 @@ import TermoUsoPrest from './src/telas/Prestador/TermoPres/TermoUsoPrest';
 import TermoUsoCliente from './src/telas/Cliente/TermoClie/TermoUsoCliente';
 import PerfilPrestador from './src/telas/Prestador/MeuPerfil/PerfilPrestador';
 import Pedidos from './src/telas/Prestador/MeusPedidos/Pedidos';
+import Agenda from './src/telas/Prestador/MinhaAgenda/Agenda';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -24,8 +25,7 @@ const Drawer = createDrawerNavigator();
 function DrawerNavigator() {
   return (
     <Drawer.Navigator >
-      <Drawer.Screen name="PerfilPres" component={PerfilPrestador} />
-      <Drawer.Screen name="PedidoMeus" component={Pedidos}  />
+      <Drawer.Screen name="Início" component={PerfilPrestador} />
     </Drawer.Navigator>
   );
 }
@@ -47,8 +47,11 @@ export default function App() {
         <Stack.Screen name="ConfirClieTel" component={ConfirmacaoClieTel} options={{ headerShown: false }} />
         <Stack.Screen name="TermoPrestador" component={TermoUsoPrest} options={{ headerShown: false }} />
         <Stack.Screen name="TermoCliente" component={TermoUsoCliente} options={{ headerShown: false }} />
-
+        
         <Stack.Screen name="Drawer" component={DrawerNavigator} options={{ headerShown: false }} />
+        <Stack.Screen name="PedidoMeus" component={Pedidos}  options={{ headerShown: false }} />
+        <Stack.Screen name="MinhaAgenda" component={Agenda}  options={{ headerShown: false }} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
