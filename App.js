@@ -18,6 +18,7 @@ import TermoUsoCliente from './src/telas/Cliente/TermoClie/TermoUsoCliente';
 import PerfilPrestador from './src/telas/Prestador/MeuPerfil/PerfilPrestador';
 import Pedidos from './src/telas/Prestador/MeusPedidos/Pedidos';
 import Agenda from './src/telas/Prestador/MinhaAgenda/Agenda';
+import TelaServicos from './src/telas/Cliente/TelaServicos/TelaServicos';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -47,6 +48,8 @@ export default function App() {
         <Stack.Screen name="ConfirClieTel" component={ConfirmacaoClieTel} options={{ headerShown: false }} />
         <Stack.Screen name="TermoPrestador" component={TermoUsoPrest} options={{ headerShown: false }} />
         <Stack.Screen name="TermoCliente" component={TermoUsoCliente} options={{ headerShown: false }} />
+        <Stack.Screen name="TelaServ" component={TelaServicos} options={{ headerShown: false }} />
+        
         
         <Stack.Screen name="Drawer" component={DrawerNavigator} options={{ headerShown: false }} />
         <Stack.Screen name="PedidoMeus" component={Pedidos}  options={{ headerShown: false }} />

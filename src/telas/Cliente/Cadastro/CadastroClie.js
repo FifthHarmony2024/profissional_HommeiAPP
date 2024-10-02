@@ -414,7 +414,7 @@ export default function CadastroClie({ navigation }) {
                         </TouchableOpacity>
 
                         <Text style={styles.cadastroTexto}>
-                            Já possui conta? <Text style={styles.cadastroLink} onPress={() => navigation.navigate('EntrarLoginCliente')}>Entrar</Text>
+                            Já possui conta? <Text style={styles.cadastroLink} onPress={() => navigation.navigate('Telaerv')}>Entrar</Text>
                         </Text>
                         </View>
                     </View>
