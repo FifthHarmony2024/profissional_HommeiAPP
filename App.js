@@ -18,8 +18,7 @@ import TermoUsoCliente from './src/telas/Cliente/TermoClie/TermoUsoCliente';
 import PerfilPrestador from './src/telas/Prestador/MeuPerfil/PerfilPrestador';
 import Pedidos from './src/telas/Prestador/MeusPedidos/Pedidos';
 import Agenda from './src/telas/Prestador/MinhaAgenda/Agenda';
-import TelaServicos from './src/telas/Cliente/TelaServicos/TelaServicos';
-
+import TelaServicos from './src/telas/Cliente/TelaServicos/TelaServicos'
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 

@@ -58,8 +58,8 @@ export default function LoginCliente({ navigation }) {
 
                         <Text style={styles.linkTexto}>Esqueci minha senha</Text>
 
-                        <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('')}>
-                            <Text style={styles.botaoTexto} onPress={() => navigation.navigate('TevlaSer')}>Entrar</Text>
+                        <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('TelaServ')}>
+                            <Text style={styles.botaoTexto}>Entrar</Text>
                         </TouchableOpacity>
                         
                     </View>
