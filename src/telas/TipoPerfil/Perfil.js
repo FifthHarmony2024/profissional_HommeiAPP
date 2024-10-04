@@ -11,13 +11,11 @@ export default function Perfil({ navigation }) {
         <Text style={styles.tituloDestaque}>Tipo de Perfil:</Text>
       </View>
 
-      <TouchableOpacity style={styles.botao}>
-        <Text
-          style={styles.botaoUsuario}
+      <TouchableOpacity 
+          style={styles.botao}
           onPress={() => navigation.navigate('EntrarLoginCliente')}
         >
-          Cliente
-        </Text>
+          <Text style={styles.botaoUsuario}>Cliente</Text>
       </TouchableOpacity>
 
       <TouchableOpacity

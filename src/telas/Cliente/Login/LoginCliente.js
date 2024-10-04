@@ -149,22 +149,14 @@ const styles = StyleSheet.create({
     iconeOlho: {
         paddingHorizontal: 10,
     },
-    botao: {
-        backgroundColor: '#4E40A2',
-        borderRadius: 50,
-        width: '60%',
-        height: 50,
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 100,
-    },
+
     botaoTexto: {
         fontSize: 18,
         color: '#FFFFFF',
         fontWeight: 'bold',
     },
     linkTexto: {
-        marginTop: -15,
+        marginTop: 40,
         marginRight: 150,
         color: '#FFFFFF',
         textDecorationLine: 'underline',

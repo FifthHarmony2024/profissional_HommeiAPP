@@ -10,7 +10,12 @@ import Notificacao from '../Notificacao/Notificacao';
 import PerfilCliente from '../Perfil/PerfilCliente';
 
 import nomepreto from '../../../../assets/nomepreto.png';
+import moda_beleza from "../../../../assets/moda_beleza.png";
+import serviços_domesticos from "../../../../assets/serviços_domesticos.png";
+import assistencia_tec from "../../../../assets/assistencia_tec.png";
+import { ScrollView } from 'react-native-gesture-handler';
 
+export default function TelaServicos(navigation) {
 function InicioScreen() {
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -19,14 +24,17 @@ function InicioScreen() {
     // Lógica de pesquisa aqui
   };
 
+
   return (
+    <ScrollView>
     <View style={styles.screen}>
       <View style={styles.nomeContainer}>
         <Image source={nomepreto} style={styles.nome} resizeMode="contain" />
       </View>
-      <Text style={styles.welcomeText}>Olá, nome da pessoa</Text>
+      
+       <Text style={styles.welcomeText}>Olá, nome da pessoa</Text>
 
-      <View style={styles.searchContainer}>
+       <View style={styles.searchContainer}>
         <Ionicons name="search" size={20} color="#A3A3A3" style={styles.searchIcon} />
         <TextInput
           style={styles.input}
@@ -35,13 +43,26 @@ function InicioScreen() {
           value={searchQuery}
           onChangeText={handleSearch}
         />
-        <TouchableOpacity>
-          <Ionicons name="options-outline" size={20} color="#A3A3A3" style={styles.filterIcon} />
-        </TouchableOpacity>
-      </View>
+       </View>
 
-      <Text>Bem-vindo à Página Inicial!</Text>
-    </View>
+       <Text style={styles.text}>Serviços</Text>
+
+       <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate("Inicio")}>
+       <Text style={styles.botão1}>Moda e Beleza</Text>
+        <Image source={moda_beleza} style={styles.image} />
+       </TouchableOpacity>
+       <TouchableOpacity style={styles.botao0} onPress={() => navigation.navigate("Inicio")}>
+        <Text style={styles.botão2}>Serviços Domésticos</Text>
+        <Image source={serviços_domesticos} style={styles.imagem} />
+       </TouchableOpacity>
+       <TouchableOpacity style={styles.bot} onPress={() => navigation.navigate("Inicio")}>
+        <Text style={styles.botão3}>Assistência Técnica</Text>
+        <Image source={assistencia_tec} style={styles.imagem1} />
+       </TouchableOpacity>
+
+
+       </View>
+    </ScrollView>
   );
 }
 
@@ -83,7 +104,7 @@ const TabButton = (props) => {
   );
 };
 
-export default function TelaServicos() {
+
   const tabs = [
     { name: 'Início', label: 'Início', iconType: Ionicons, iconName: 'home', component: InicioScreen },
     { name: 'Pesquisa', label: 'Pesquisa', iconType: Ionicons, iconName: 'search', component: Pesquisa },
@@ -111,6 +132,7 @@ export default function TelaServicos() {
       ))}
     </Tab.Navigator>
   );
+    
 }
 
 const styles = StyleSheet.create({
@@ -162,6 +184,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 10,
+
   },
   searchContainer: {
     flexDirection: 'row',
@@ -174,7 +197,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 10 },
     elevation: 3,
-    marginBottom: 20,
+    marginBottom: 50,
   },
   searchIcon: {
     marginRight: 10,
@@ -194,7 +217,95 @@ const styles = StyleSheet.create({
   nome: {
     width: 120, 
     height: 120, 
-    marginTop:-330,
+    marginTop:-30,
     marginRight:235
+  },
+  text:{
+    fontSize: 25,
+    fontWeight: '600',
+    marginTop: -15,
+    marginLeft: -250
+  },
+  botao: {
+    flexDirection: 'row',
+    backgroundColor: '#ffff',
+    paddingVertical: 30,
+    shadowColor: '#000',
+    shadowOpacity: 0,
+    shadowOffset: { width: 0, height: 10 },
+    height: 150,
+    width: 100,
+    elevation: 3,
+    marginBottom: -10,
+    marginLeft:-250,
+    borderRadius:20,
+    marginTop: 20,
+  },
+  botão1:{
+    margin:2,
+    marginTop: 70,
+    color:'#000',
+    fontWeight: '250',
+  },
+  image:{
+    margin:-90,
+    marginTop: -2,
+    width:80,
+    height:60
+  },
+  botao0: {
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    paddingVertical: 30,
+    shadowColor: '#000',
+    shadowOpacity: 0,
+    shadowOffset: { width: 0, height: 10 },
+    height: 150,
+    width: 100,
+    elevation: 3,
+    marginBottom: -10,
+    marginTop:-137,
+    marginLeft:0,
+    borderRadius:20,
+  },
+  botão2:{
+    margin: 3.4,
+    marginTop: 54,
+    color:'#000',
+    shadowColor: '#000',
+    fontWeight: '250',
+    fontSize: 14,
+  },
+  imagem:{
+    margin:-75,
+    marginTop: -5,
+    width:80,
+    height:60
+  },
+  bot:{
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    paddingVertical: 30,
+    shadowColor: '#000',
+    shadowOpacity: 0,
+    shadowOffset: { width: 0, height: 10 },
+    height: 150,
+    width: 100,
+    elevation: 3,
+    marginBottom: -10,
+    marginTop:-139,
+    marginLeft:250,
+    borderRadius:20,
+  },
+  botão3:{
+    margin: 3,
+    marginTop: 54,
+    color:'#000',
+  },
+  imagem1:{
+    margin:-75,
+    marginTop: -5,
+    width:80,
+    height:60
   },
 });
